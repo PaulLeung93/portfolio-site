@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #00f2fe;
+  --color-secondary: #4facfe;
+  --color-background: #050505;
+  --color-surface: #121212;
+  --color-surface-highlight: #1E1E1E;
+
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  --image-hero-glow: conic-gradient(from 180deg at 50% 50%, #00f2fe 0deg, #4facfe 180deg, #00f2fe 360deg);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-white antialiased;
+  }
+}
+
+/* Custom Scrollbar for the "Phone" feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-surface;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-highlight rounded-full;
+}
