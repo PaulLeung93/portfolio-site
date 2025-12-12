@@ -3,15 +3,20 @@ import { Environment, OrbitControls, ContactShadows } from '@react-three/drei'
 import { Suspense } from 'react'
 import PhoneModel from './components/canvas/PhoneModel'
 import Overlay from './components/ui/Overlay'
+import AnimatedBackground from './components/ui/AnimatedBackground'
 
 function App() {
   return (
-    <div className="w-full min-h-screen bg-background relative">
+    <div className="w-full min-h-screen relative">
+      {/* Animated Gradient Background - Behind everything */}
+      <div className="fixed inset-0 -z-10">
+        <AnimatedBackground />
+      </div>
 
       <Overlay />
 
-      {/* 3D Scene - Fixed Background */}
-      <div className="fixed inset-0 z-0">
+      {/* 3D Scene - Absolute Background (Scrolls with page) */}
+      <div className="absolute top-0 left-0 w-full h-screen z-0">
         <Canvas camera={{ position: [0, 0, 3.5], fov: 45 }}>
           <Environment preset="city" />
           <ambientLight intensity={0.5} />

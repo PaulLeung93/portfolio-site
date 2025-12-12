@@ -39,7 +39,7 @@ const Overlay = () => {
             </Section>
 
             {/* Tech Stack / About Section */}
-            <Section className="bg-black/50 backdrop-blur-sm md:items-end md:text-right">
+            <Section className="md:items-end md:text-right">
                 <div className="max-w-xl md:ml-auto pointer-events-auto">
                     <h2 className="text-4xl font-bold mb-8">Engineering Stack.</h2>
                     <div className="grid grid-cols-2 gap-4">
