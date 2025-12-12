@@ -109,8 +109,8 @@ const HomeOS = () => {
             )
         },
         { id: 'contact', name: 'Contact', icon: MessageSquare, color: 'bg-green-500', content: <div className="p-4">Contact Me</div> },
-        { id: 'github', name: 'GitHub', icon: Github, color: 'bg-gray-800', content: null, external: 'https://github.com' },
-        { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-700', content: null, external: 'https://linkedin.com' },
+        { id: 'github', name: 'GitHub', icon: Github, color: 'bg-gray-800', content: null, external: 'https://github.com/PaulLeung93' },
+        { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-700', content: null, external: 'https://www.linkedin.com/in/paulleung1993/' },
     ]
 
     return (

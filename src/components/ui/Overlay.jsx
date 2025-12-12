@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowDown, Code, Smartphone, Globe, Mail } from 'lucide-react'
+import { Code, Smartphone, Globe, Mail } from 'lucide-react'
 
 const Section = ({ children, className }) => (
     <section className={`min-h-screen w-full flex flex-col justify-center p-8 ${className}`}>
@@ -36,15 +36,6 @@ const Overlay = () => {
                     </div>
                 </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1, duration: 1 }}
-                    className="absolute bottom-10 left-8 flex items-center gap-2 text-sm text-gray-500 pointer-events-auto"
-                >
-                    <ArrowDown className="animate-bounce" size={16} />
-                    Scroll to explore
-                </motion.div>
             </Section>
 
             {/* Tech Stack / About Section */}
@@ -79,10 +70,13 @@ const Overlay = () => {
             {/* Footer / Contact */}
             <footer className="w-full py-20 px-8 text-center bg-black pointer-events-auto">
                 <h2 className="text-4xl font-bold mb-6">Let's Build Something.</h2>
-                <a href="mailto:hello@johndoe.com" className="text-2xl text-gray-400 hover:text-white transition-colors underline decoration-primary underline-offset-4">
-                    hello@johndoe.com
+                <a
+                    href="mailto:PaulLeung93@gmail.com"
+                    className="text-2xl text-gray-400 hover:text-white transition-colors inline-block border-b-2 border-primary pb-1"
+                >
+                    PaulLeung93@gmail.com
                 </a>
-                <p className="mt-8 text-gray-600 text-sm">© 2025 John Doe. All rights reserved.</p>
+                <p className="mt-8 text-gray-600 text-sm">© 2025 Paul Leung. All rights reserved.</p>
             </footer>
 
         </div>
