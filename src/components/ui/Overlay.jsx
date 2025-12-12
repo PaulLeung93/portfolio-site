@@ -8,37 +8,40 @@ const Section = ({ children, className, ...props }) => (
 )
 
 import Header from './Header'
+import ScrollDownIndicator from './ScrollDownIndicator'
 
 const Overlay = () => {
     return (
         <div className="absolute top-0 left-0 w-full z-10 pointer-events-none">
             <Header />
+            <ScrollDownIndicator />
 
             {/* Hero Section */}
-            <Section className="items-start max-w-2xl pt-20" id="hero">
-                <motion.div
-                    className="pointer-events-auto"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                    <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4">
-                        MOBILE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">MASTERY</span>
-                    </h1>
-                    <p className="text-xl text-gray-400 mb-8 max-w-lg">
-                        Crafting seamless native experiences for iOS and Android.
-                        Interactive, performant, and reliable.
-                    </p>
-                    <div className="flex gap-4">
-                        <a href="#work" className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors text-center">
-                            View Work
-                        </a>
-                        <a href="#resume" className="px-8 py-3 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors text-center">
-                            Contact Me
-                        </a>
-                    </div>
-                </motion.div>
-
+            <Section className="items-start pt-20 relative" id="hero">
+                <div className="max-w-2xl">
+                    <motion.div
+                        className="pointer-events-auto"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4">
+                            MOBILE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">MASTERY</span>
+                        </h1>
+                        <p className="text-xl text-gray-400 mb-8 max-w-lg">
+                            Crafting seamless native experiences for iOS and Android.
+                            Interactive, performant, and reliable.
+                        </p>
+                        <div className="flex gap-4">
+                            <a href="#work" className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors text-center">
+                                View Work
+                            </a>
+                            <a href="#resume" className="px-8 py-3 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors text-center">
+                                Contact Me
+                            </a>
+                        </div>
+                    </motion.div>
+                </div>
             </Section>
 
             {/* Tech Stack / About Section */}
