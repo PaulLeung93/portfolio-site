@@ -4,7 +4,11 @@ import { LayoutGrid, MessageSquare, Briefcase, User, Github, Linkedin, Battery, 
 
 const HomeOS = () => {
     const [activeApp, setActiveApp] = useState(null)
-    const currentTime = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+
+    // Get current date and time
+    const now = new Date()
+    const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' })
+    const monthDay = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
 
     // Project Data (Mock)
     const projects = [
@@ -111,15 +115,6 @@ const HomeOS = () => {
 
     return (
         <div className="w-full h-full bg-black text-white select-none flex flex-col font-sans">
-            {/* Status Bar */}
-            <div className="flex justify-between items-center px-6 pt-3 text-xs font-semibold">
-                <span>9:41</span>
-                <div className="flex gap-2 items-center">
-                    <Signal size={12} />
-                    <Wifi size={12} />
-                    <Battery size={14} />
-                </div>
-            </div>
 
             {/* Dynamic Island Area */}
             <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-50 pointer-events-none"></div>
@@ -135,9 +130,9 @@ const HomeOS = () => {
                         className="flex-1 p-6 flex flex-col pt-16"
                     >
                         {/* Date Widget */}
-                        <div className="mb-10 pl-2">
-                            <h2 className="text-6xl font-thin text-white/90 mb-1">Monday</h2>
-                            <h3 className="text-2xl text-white/60">December 12</h3>
+                        <div className="mb-16 pl-2">
+                            <h2 className="text-9xl font-thin text-white/90 mb-1">{dayOfWeek}</h2>
+                            <h3 className="text-5xl text-white/60">{monthDay}</h3>
                         </div>
 
                         {/* App Grid */}
@@ -156,10 +151,10 @@ const HomeOS = () => {
                                     }}
                                     className="flex flex-col items-center gap-1 cursor-pointer group"
                                 >
-                                    <div className={`${app.color} w-20 h-20 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
-                                        <app.icon size={42} color="white" />
+                                    <div className={`${app.color} w-48 h-48 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
+                                        <app.icon size={96} color="white" />
                                     </div>
-                                    <span className="text-sm text-gray-200 font-medium tracking-wide">{app.name}</span>
+                                    <span className="text-3xl text-gray-200 font-medium tracking-wide">{app.name}</span>
                                 </motion.div>
                             ))}
                         </div>
@@ -191,21 +186,6 @@ const HomeOS = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            {/* Dock (Only visible on home) */}
-            {!activeApp && (
-                <div className="mt-auto m-4 p-4 bg-white/10 backdrop-blur-md rounded-[30px] flex justify-around items-center mb-6">
-                    {[0, 1, 2, 3].map((i) => (
-                        <div key={i} className="w-12 h-12 bg-gray-700/50 rounded-xl hover:scale-110 transition-transform duration-200" />
-                    ))}
-                </div>
-            )}
-
-            {/* Home Line */}
-            <div
-                className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/40 rounded-full cursor-pointer hover:bg-white transition-colors z-50"
-                onClick={() => setActiveApp(null)}
-            />
         </div>
     )
 }
