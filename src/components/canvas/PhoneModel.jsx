@@ -51,6 +51,97 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
         bevelThickness: 0.015
     }
 
+    if (modelType === 'pixel') {
+        // Pixel 10 Style - White "Porcelain"
+        // Pixel has slightly softer corners than iPhone, but flat sides (Pixel 9 Pro vibe)
+
+        // Adjust shape for slightly softer corners if needed, but the current shape is versatile.
+        // We will stick to the shared shape for consistency in screen fit, but we can change materials/add-ons.
+
+        return (
+            <group {...props} dispose={null}>
+                {/* 1. SINGLE CHASSIS - Extruded Body for Flat Sides - polished silver/aluminum */}
+                <mesh position={[0, 0, -0.075]}>
+                    <extrudeGeometry args={[shape, extrudeSettings]} />
+                    <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} />
+                </mesh>
+
+                {/* 2. Back Glass - SURFACE SHAPE - White Porcelain / Soft Matte */}
+                <mesh position={[0, 0, -0.091]} rotation={[0, Math.PI, 0]}>
+                    <shapeGeometry args={[shape]} />
+                    <meshStandardMaterial color="#f5f5f5" roughness={0.6} metalness={0.1} />
+
+                    {/* Google G Logo */}
+                    <Html
+                        transform
+                        position={[0, 0, 0.001]}
+                        scale={0.15}
+                        rotation={[0, 0, 0]}
+                        occlude
+                        style={{ background: 'transparent' }}
+                    >
+                        <div className="text-[#a0a0a0] text-6xl font-sans font-bold select-none opacity-40">
+                            G
+                        </div>
+                    </Html>
+                </mesh>
+
+                {/* 3. Screen - SURFACE SHAPE */}
+                <mesh position={[0, 0, 0.091]}>
+                    <shapeGeometry args={[shape]} />
+                    <meshStandardMaterial color="black" roughness={0.0} metalness={0.2} />
+
+                    {/* Screen Content */}
+                    <group position={[0, 0, 0.001]}>
+                        <ScreenContent occlude="blending" />
+                    </group>
+                </mesh>
+
+                {/* 4. Camera Bar - The Iconic Visor */}
+                {/* Spans almost full width. Floating island style (Pixel 9). */}
+                {/* Chassis Width is 1.5. Bar width ~1.4. Height ~0.35. Depth ~0.06. */}
+                {/* Pos Z: Sits on Back Glass (-0.091) -> -0.12 */}
+                <group position={[0, 1.0, -0.12]}>
+                    <RoundedBox args={[1.4, 0.35, 0.06]} radius={0.15} smoothness={4}>
+                        <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} /> {/* Match Chassis Silver */}
+                    </RoundedBox>
+
+                    {/* The "Pill" - Black Glass area for lenses */}
+                    {/* Slightly smaller than the bar */}
+                    <RoundedBox args={[1.2, 0.22, 0.065]} radius={0.11} smoothness={4} position={[0, 0, 0.005]}>
+                        <meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} />
+                    </RoundedBox>
+
+                    {/* Lenses */}
+                    {/* Main (Wide) */}
+                    <Cylinder args={[0.08, 0.08, 0.08, 32]} rotation={[Math.PI / 2, 0, 0]} position={[-0.3, 0, 0.01]}>
+                        <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
+                    </Cylinder>
+                    {/* Ultrawide */}
+                    <Cylinder args={[0.08, 0.08, 0.08, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.01]}>
+                        <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
+                    </Cylinder>
+                    {/* Telephoto (Periscope - modeled as slightly rectangular or just circle for simplicity) */}
+                    <Cylinder args={[0.08, 0.08, 0.08, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0.3, 0, 0.01]}>
+                        <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
+                    </Cylinder>
+                </group>
+
+                {/* 5. Buttons - ALL ON RIGHT SIDE for Pixel */}
+                {/* Power Button (Top Right) */}
+                <RoundedBox args={[0.03, 0.25, 0.08]} radius={0.01} smoothness={4} position={[0.755, 0.7, 0]}>
+                    <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} />
+                </RoundedBox>
+
+                {/* Volume Rocker (Bottom Right) */}
+                <RoundedBox args={[0.03, 0.5, 0.08]} radius={0.01} smoothness={4} position={[0.755, 0.2, 0]}>
+                    <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} />
+                </RoundedBox>
+
+            </group>
+        )
+    }
+
     if (modelType === 'iphone') {
         // iPhone 15 Pro Style - Natural Titanium
         return (

@@ -165,6 +165,15 @@ const Overlay = ({ setPhoneModel, currentModel }) => {
                                 <div className="absolute top-1 left-1/2 -translate-x-1/2 w-2 h-[3px] bg-current rounded-full" />
                             </div>
                         </button>
+                        <button
+                            onClick={() => setPhoneModel('pixel')}
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${currentModel === 'pixel' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
+                            title="Google Pixel"
+                        >
+                            <div className="w-6 h-10 border-2 border-current rounded-[4px] relative overflow-hidden">
+                                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-5 h-[4px] bg-current rounded-full" />
+                            </div>
+                        </button>
                     </div>
                 </motion.div>
             </Section>
