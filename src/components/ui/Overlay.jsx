@@ -12,7 +12,7 @@ const experiences = [
     {
         id: 'popstock',
         company: 'PopStock',
-        role: 'Android Engineer',
+        role: 'Android Developer',
         period: 'Nov 2025 – Present',
         website: 'https://popstock.io/',
         shortDescription: 'Empowering America’s underprivileged youth with financial literacy through simulation tools.',
@@ -120,8 +120,8 @@ const Overlay = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4">
-                            MOBILE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">MASTERY</span>
+                        <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
+                            MOBILE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">DEVELOPER</span>
                         </h1>
                         <p className="text-xl text-gray-400 mb-8 max-w-lg">
                             Crafting seamless native experiences for iOS and Android.

@@ -15,7 +15,10 @@ const Header = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            <div className="text-xl font-bold tracking-tighter">
+            <div
+                className="text-xl font-bold tracking-tighter cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => window.location.reload()}
+            >
                 Paul Leung
             </div>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LayoutGrid, MessageSquare, Briefcase, User, Github, Linkedin, Battery, Wifi, Signal, ChevronLeft, ExternalLink, Music, Settings, Image as ImageIcon, Moon, Sun, Globe, Upload, Play, SkipForward, Pause, X, Check } from 'lucide-react'
 import { translations } from './translations'
@@ -7,6 +7,7 @@ import { translations } from './translations'
 import wallpaperAndroid from '../../assets/wallpapers/android.png'
 import wallpaperIos from '../../assets/wallpapers/ios.png'
 import wallpaperFlutter from '../../assets/wallpapers/flutter.png'
+import profilePic from '../../assets/profile-pic.jpg'
 
 const HomeOS = () => {
     const [activeAppId, setActiveAppId] = useState(null)
@@ -83,11 +84,42 @@ const HomeOS = () => {
             icon: User,
             color: 'bg-indigo-500',
             content: (
-                <div className="p-12">
-                    <h2 className={`text-8xl font-bold mb-10 ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.aboutMe}</h2>
-                    <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
-                        {t.aboutDesc}
-                    </p>
+                <div className="p-8 pb-32">
+                    <div className="flex flex-col items-center mb-10">
+                        <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-xl mb-6 bg-gray-200">
+                            {/* Placeholder Profile Pic - Replace with actual photo */}
+                            <img
+                                src={profilePic}
+                                alt="Profile"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <h2 className={`text-8xl font-bold mb-4 text-center ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.aboutMe}</h2>
+                    </div>
+
+                    <div className="space-y-8 px-4">
+                        <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
+                            I’m a mobile engineer, a native New Yorker who enjoys making native apps (ba dum tss). I’ve always been drawn to mobile because, honestly, I spend way too much time on my phone — but more importantly, I love how quickly mobile products can reach people. There’s something powerful about building experiences that are immediately accessible, anywhere, anytime.
+                        </p>
+                        <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
+                            My background is primarily in Android development, where I’ve spent years working with Kotlin, Jetpack Compose, and XML-based UIs, alongside cloud services, Firebase, and on-device capabilities. Over time, I’ve tried not to box myself in. I care less about platforms in isolation and more about building experiences that feel intentional, reliable, and human — regardless of the tech stack underneath.
+                        </p>
+                        <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
+                            I previously served as a Tech Fellow at CodePath and now serve as a Tech Fellow Manager, and that experience has profoundly reshaped how I see myself in this field. Working at CodePath helped me realize that there is a space for me in STEM — something I didn’t always take for granted. That realization has stayed with me, and it’s a big part of why I care so deeply about the work I do there now.
+                        </p>
+                        <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
+                            Supporting students and teaching assistants has influenced how I approach both engineering and mentorship. I’ve learned that confidence is often built through support, that clarity is an act of kindness, and that good technology — like good teaching — should help people feel capable rather than overwhelmed. I hope to pay that forward by creating spaces where students feel seen, supported, and empowered to keep going.
+                        </p>
+                        <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
+                            Community has been a constant through all of this. Whether it’s volunteering at Droidcon, attending small developer events, or having hallway conversations that end up being more meaningful than the talks themselves, I’ve learned that some of the most important growth happens outside of code. Being part of these spaces has helped me stay curious, grounded, and quite simply, happy.
+                        </p>
+                        <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
+                            Outside of work, you’ll probably find me at karaoke, confidently (and perhaps overly dramatically) singing “Go the Distance” by Michael Bolton. When I’m not doing that, I’m usually tinkering with my Bambu Lab 3D printer, running up my filament bill with all the neat 3D files I find online. I also have a soft spot for quiet cafe moments — especially if there’s a Peach Green Tea Lemonade from Starbucks involved. <del>Coffee chat</del> Tea chat sometime?
+                        </p>
+                        <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
+                            At the end of the day, I’m motivated by building things that help people — whether that’s an app, a learning experience, or a community. If you’re interested in mobile, AI, education, or just want to jam at karaoke, I’d love to connect.
+                        </p>
+                    </div>
                 </div>
             )
         },
@@ -390,7 +422,12 @@ const HomeOS = () => {
         { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-700', content: null, external: 'https://www.linkedin.com/in/paulleung1993/' },
     ]
     const activeApp = apps.find(a => a.id === activeAppId)
-    const now = new Date()
+    const [now, setNow] = useState(new Date())
+
+    useEffect(() => {
+        const timer = setInterval(() => setNow(new Date()), 1000)
+        return () => clearInterval(timer)
+    }, [])
 
     // Map internal lang keys to standard locale strings
     const localeMap = {
@@ -401,6 +438,7 @@ const HomeOS = () => {
     const locale = localeMap[lang] || 'en-US'
     const dayOfWeek = now.toLocaleDateString(locale, { weekday: 'long' })
     const monthDay = now.toLocaleDateString(locale, { month: 'long', day: 'numeric' })
+    const timeString = now.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' })
 
 
 
@@ -429,8 +467,8 @@ const HomeOS = () => {
                     >
                         {/* Date Widget */}
                         <div className="mb-16 pl-2 relative z-10">
-                            <h2 className={`text-9xl font-thin mb-1 ${!isDark && !wallpaper ? 'text-black/90' : 'text-white/90'}`}>{dayOfWeek}</h2>
-                            <h3 className={`text-5xl ${!isDark && !wallpaper ? 'text-black/60' : 'text-white/60'}`}>{monthDay}</h3>
+                            <h2 className={`text-9xl font-thin mb-4 ${!isDark && !wallpaper ? 'text-black/90' : 'text-white/90'}`}>{timeString}</h2>
+                            <h3 className={`text-6xl ${!isDark && !wallpaper ? 'text-black/60' : 'text-white/60'}`}>{dayOfWeek}, {monthDay}</h3>
                         </div>
 
                         {/* App Grid */}
