@@ -297,6 +297,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                 transform
                 occlude
                 position={[0, 0, 0.001]}
+                rotation={[0, 0, Math.PI]}
                 style={{
                     width: '600px',
                     height: '600px',
@@ -311,10 +312,10 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                 }}
                 scale={0.028}
             >
-                <div style={{ fontSize: '120px', fontWeight: '200', marginBottom: '10px' }}>
+                <div style={{ fontSize: '190px', fontWeight: '400', lineHeight: '0.85', marginBottom: '0px', letterSpacing: '-4px' }}>
                     {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
                 </div>
-                <div style={{ fontSize: '32px', opacity: 0.7 }}>
+                <div style={{ fontSize: '28px', opacity: 0.6, marginTop: '10px' }}>
                     {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                 </div>
             </Html>
@@ -333,17 +334,28 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     {/* Back Glass */}
                     <mesh position={[0, 0, -depth - 0.01]} rotation={[0, Math.PI, 0]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} />
+                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} side={THREE.BackSide} />
+                    </mesh>
+
+                    {/* Opaque backing layer - prevents see-through */}
+                    <mesh position={[0, 0, 0]}>
+                        <shapeGeometry args={[halfShape]} />
+                        <meshBasicMaterial color="#000000" side={THREE.DoubleSide} depthWrite={true} />
                     </mesh>
 
                     {/* Screen Surface - Bottom Half */}
                     <mesh position={[0, 0, depth + 0.01]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} />
+                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} side={THREE.FrontSide} />
 
                         {/* Main Screen Content - Hide when folding, show only when fully unfolded */}
                         {!isFolded && isNearlyUnfolded && (
                             <group position={[0, halfHeight / 2, 0.001]}>
+                                {/* Opaque backing to prevent see-through */}
+                                <mesh position={[0, 0, -0.001]}>
+                                    <planeGeometry args={[1.4, 2.9]} />
+                                    <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
+                                </mesh>
                                 <ScreenContent occlude="blending" scale={0.035} />
                             </group>
                         )}
@@ -365,39 +377,54 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     {/* Back Glass */}
                     <mesh position={[0, halfHeight / 2, -depth - 0.01]} rotation={[0, Math.PI, 0]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} />
+                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} side={THREE.BackSide} />
 
-                        {/* Cover Screen - Shows lock screen */}
-                        <group position={[0, 0.3, 0.001]}>
-                            <RoundedBox args={[1.0, 0.9, 0.005]} radius={0.08} smoothness={4}>
-                                <meshStandardMaterial color="#000" roughness={0.0} metalness={0.2} />
-                            </RoundedBox>
-                            <group position={[0, 0, 0.003]}>
-                                <LockScreen />
-                            </group>
-                        </group>
+                        {/* Cover Screen - Full coverage display (Galaxy Flip 7 style) */}
+                        {/* Nearly fills entire back surface with minimal bezels */}
+                        <mesh position={[0, 0, 0.001]}>
+                            <shapeGeometry args={[halfShape]} />
+                            <meshStandardMaterial color="#000" roughness={0.0} metalness={0.2} />
+                            {/* Only show lock screen UI when folded */}
+                            {isFolded && (
+                                <group position={[0, 0, 0.001]}>
+                                    {/* Opaque backing to prevent see-through */}
+                                    <mesh position={[0, 0, -0.001]}>
+                                        <planeGeometry args={[1.4, 1.45]} />
+                                        <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
+                                    </mesh>
+                                    <LockScreen />
+                                </group>
+                            )}
+                        </mesh>
+                    </mesh>
+
+                    {/* Opaque backing layer - prevents see-through */}
+                    <mesh position={[0, halfHeight / 2, 0]}>
+                        <shapeGeometry args={[halfShape]} />
+                        <meshBasicMaterial color="#000000" side={THREE.DoubleSide} depthWrite={true} />
                     </mesh>
 
                     {/* Screen Surface - Top Half */}
                     <mesh position={[0, halfHeight / 2, depth + 0.01]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} />
+                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} side={THREE.FrontSide} />
                     </mesh>
 
-                    {/* Camera System - Dual cameras */}
-                    <group position={[0.4, halfHeight / 2 + 0.5, -depth - 0.03]}>
-                        {/* Main Camera */}
-                        <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0.15, 0]}>
+                    {/* Camera System - Dual cameras embedded in cover screen */}
+                    {/* Horizontally arranged at bottom right of lock screen */}
+                    <group position={[0.35, halfHeight / 2 + 0.5, -depth - 0.02]}>
+                        {/* 50MP Wide Camera (left) */}
+                        <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[-0.15, 0, 0]}>
                             <meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} />
                         </Cylinder>
-                        {/* Ultra-wide Camera */}
-                        <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, -0.15, 0]}>
+                        {/* 12MP Ultra-wide Camera (right) */}
+                        <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0.15, 0, 0]}>
                             <meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} />
                         </Cylinder>
                     </group>
 
-                    {/* Volume Rocker - attached to top half */}
-                    <RoundedBox args={[0.03, 0.5, 0.06]} radius={0.01} smoothness={4} position={[-width / 2 - 0.015, halfHeight / 2 + 0.5, 0]}>
+                    {/* Volume Rocker - RIGHT side, attached to top half */}
+                    <RoundedBox args={[0.03, 0.5, 0.06]} radius={0.01} smoothness={4} position={[width / 2 + 0.015, halfHeight / 2 - 0.2, 0]}>
                         <meshStandardMaterial color={blueShadowColor} roughness={0.4} metalness={0.7} />
                     </RoundedBox>
                 </animated.group>
