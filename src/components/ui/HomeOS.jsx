@@ -151,38 +151,30 @@ const HomeOS = () => {
             icon: Music,
             color: 'bg-red-500',
             content: (
-                <div className="p-8 h-full flex flex-col">
-                    <div className="flex-1 flex items-center justify-center p-8">
-                        <div className="w-64 h-64 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-4xl shadow-2xl flex items-center justify-center mb-12">
-                            <Music size={80} className="text-white/50" />
+                <div className="h-full flex flex-col items-center justify-center p-8">
+                    <div className="w-full max-w-[90%]">
+                        <h3 className={`text-9xl font-bold mb-8 text-center ${!isDark ? 'text-gray-900' : 'text-white'}`}>My Playlist</h3>
+                        <p className={`text-6xl text-center mb-16 ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}>Curated coding vibes</p>
+
+                        {/* Spotify Embed Scaled for Readability */}
+                        <div className="w-full overflow-hidden shadow-2xl rounded-[3rem] relative bg-black" style={{ height: '1600px' }}>
+                            <div className="absolute top-0 left-0 origin-top-left w-[31.25%] h-[500px]" style={{ transform: 'scale(3.2)' }}>
+                                <iframe
+                                    style={{ borderRadius: '12px' }}
+                                    src="https://open.spotify.com/embed/playlist/35SBSeV8u4ZVhpPwQdAtLy?utm_source=generator&theme=0"
+                                    width="100%"
+                                    height="500"
+                                    frameBorder="0"
+                                    allowFullScreen=""
+                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                    loading="lazy"
+                                ></iframe>
+                            </div>
                         </div>
-                    </div>
-                    <div className="mb-12">
-                        <h3 className={`text-5xl font-bold mb-2 text-center ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.lofiBeats}</h3>
-                        <p className={`text-3xl text-center ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}>{t.codingChill}</p>
-                    </div>
-                    <div className="flex flex-col gap-6 mb-12">
-                        <div className={`w-full h-2 rounded-full overflow-hidden ${!isDark ? 'bg-gray-200' : 'bg-gray-800'}`}>
-                            <div className={`w-1/3 h-full rounded-full ${!isDark ? 'bg-black' : 'bg-white'}`}></div>
-                        </div>
-                        <div className={`flex justify-between text-2xl font-medium ${!isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                            <span>1:23</span>
-                            <span>3:45</span>
-                        </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-12 pb-12">
-                        <button className={`${!isDark ? 'text-gray-400 hover:text-black' : 'text-gray-400 hover:text-white'} transition-colors`}>
-                            <SkipForward size={48} className="rotate-180" />
-                        </button>
-                        <button
-                            onClick={() => setIsPlaying(!isPlaying)}
-                            className={`w-24 h-24 rounded-full flex items-center justify-center hover:scale-105 transition-transform ${!isDark ? 'bg-black text-white' : 'bg-white text-black'}`}
-                        >
-                            {isPlaying ? <Pause size={40} fill={!isDark ? 'white' : 'black'} /> : <Play size={40} fill={!isDark ? 'white' : 'black'} className="ml-1" />}
-                        </button>
-                        <button className={`${!isDark ? 'text-gray-400 hover:text-black' : 'text-gray-400 hover:text-white'} transition-colors`}>
-                            <SkipForward size={48} />
-                        </button>
+
+                        <p className={`text-5xl text-center mt-12 ${!isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                            🎵 Click play to start the music
+                        </p>
                     </div>
                 </div>
             )
@@ -422,9 +414,6 @@ const HomeOS = () => {
             className={`w-full h-full bg-black text-white select-none flex flex-col font-sans transition-colors duration-300 ${!isDark ? 'bg-gray-100 text-black' : ''}`}
             style={wallpaper ? { backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
         >
-            {/* Dark overlay for readability if wallpaper is set */}
-            {wallpaper && <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0 pointer-events-none" />}
-
             {/* Dynamic Island Area */}
             <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-50 pointer-events-none"></div>
 
