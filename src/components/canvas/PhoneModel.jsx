@@ -4,7 +4,7 @@ import HomeOS from '../ui/HomeOS'
 
 const PhoneModel = ({ modelType = 'default', ...props }) => {
     // Shared Screen Logic
-    const ScreenContent = ({ occlude }) => (
+    const ScreenContent = ({ occlude, scale = 0.035 }) => (
         <Html
             transform
             occlude={occlude}
@@ -15,40 +15,43 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                 backgroundColor: 'black',
                 overflow: 'hidden'
             }}
-            scale={0.035} // Optimal balance: readable without overlapping phone edges
+            scale={scale} // Optimal balance: readable without overlapping phone edges
         >
             <HomeOS />
         </Html>
     )
 
 
+
+
+
+    // Generate Rounded Rect Shape for Extrusion (Shared)
+    const shape = new THREE.Shape()
+    const width = 1.5
+    const height = 3.02
+    const radius = 0.22
+    const x = -width / 2
+    const y = -height / 2
+
+    shape.moveTo(x, y + radius)
+    shape.lineTo(x, y + height - radius)
+    shape.quadraticCurveTo(x, y + height, x + radius, y + height)
+    shape.lineTo(x + width - radius, y + height)
+    shape.quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
+    shape.lineTo(x + width, y + radius)
+    shape.quadraticCurveTo(x + width, y, x + width - radius, y)
+    shape.lineTo(x + radius, y)
+    shape.quadraticCurveTo(x, y, x, y + radius)
+
+    const extrudeSettings = {
+        depth: 0.15,
+        bevelEnabled: true,
+        bevelSegments: 4,
+        bevelSize: 0.015, // Smooth edge rounding
+        bevelThickness: 0.015
+    }
+
     if (modelType === 'iphone') {
-        // Generate Rounded Rect Shape for Extrusion
-        const shape = new THREE.Shape();
-        const width = 1.5;
-        const height = 3.02;
-        const radius = 0.22;
-        const x = -width / 2;
-        const y = -height / 2;
-
-        shape.moveTo(x, y + radius);
-        shape.lineTo(x, y + height - radius);
-        shape.quadraticCurveTo(x, y + height, x + radius, y + height);
-        shape.lineTo(x + width - radius, y + height);
-        shape.quadraticCurveTo(x + width, y + height, x + width, y + height - radius);
-        shape.lineTo(x + width, y + radius);
-        shape.quadraticCurveTo(x + width, y, x + width - radius, y);
-        shape.lineTo(x + radius, y);
-        shape.quadraticCurveTo(x, y, x, y + radius);
-
-        const extrudeSettings = {
-            depth: 0.15,
-            bevelEnabled: true,
-            bevelSegments: 4,
-            bevelSize: 0.015, // Smooth edge rounding
-            bevelThickness: 0.015
-        };
-
         // iPhone 15 Pro Style - Natural Titanium
         return (
             <group {...props} dispose={null}>
@@ -139,21 +142,28 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
     // Default "Sleek" Black Phone
     return (
         <group {...props} dispose={null}>
-            {/* Phone Body */}
-            <RoundedBox args={[1.5, 3, 0.2]} radius={0.15} smoothness={4}>
+            {/* 1. SINGLE CHASSIS - Extruded Body for Flat Sides */}
+            <mesh position={[0, 0, -0.075]}>
+                <extrudeGeometry args={[shape, extrudeSettings]} />
+                <meshStandardMaterial color="#3a3a3a" roughness={0.2} metalness={1.0} />
+            </mesh>
+
+            {/* 2. Back Glass - SURFACE SHAPE */}
+            <mesh position={[0, 0, -0.091]} rotation={[0, Math.PI, 0]}>
+                <shapeGeometry args={[shape]} />
                 <meshStandardMaterial color="#1c1c1c" roughness={0.1} metalness={0.8} />
-            </RoundedBox>
+            </mesh>
 
-            {/* Titanium Frame Border (Slightly larger) */}
-            <RoundedBox args={[1.52, 3.02, 0.19]} radius={0.16} smoothness={4}>
-                <meshStandardMaterial color="#3a3a3a" roughness={0.2} metalness={1} />
-            </RoundedBox>
+            {/* 3. Screen - SURFACE SHAPE */}
+            <mesh position={[0, 0, 0.091]}> {/* Manual offset to clear bevel */}
+                <shapeGeometry args={[shape]} />
+                <meshStandardMaterial color="black" roughness={0.0} metalness={0.2} />
 
-            {/* Screen Area with rounded corners */}
-            <RoundedBox args={[1.4, 2.85, 0.01]} radius={0.12} smoothness={4} position={[0, 0, 0.11]}>
-                <meshBasicMaterial color="black" />
-                <ScreenContent />
-            </RoundedBox>
+                {/* Screen Content - HTML Overlay */}
+                <group position={[0, 0, 0.001]}>
+                    <ScreenContent scale={0.038} />
+                </group>
+            </mesh>
         </group>
     )
 }
