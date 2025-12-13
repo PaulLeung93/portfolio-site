@@ -44,11 +44,67 @@ const experiences = [
     }
 ]
 
+const blogs = [
+    {
+        id: 'android-ai-insiders',
+        title: 'Android AI Insiders @ Google NYC',
+        date: 'October 2025',
+        preview: 'Earlier this fall, I had the chance to attend Android AI Insiders, an invite-only, in-person event hosted at Google’s New York office. The event brought together a small group of Android engineers...',
+        content: `Earlier this fall, I had the chance to attend Android AI Insiders, an invite-only, in-person event hosted at Google’s New York office. The event brought together a small group of Android engineers and product leaders to explore where AI on Android is headed and how developers can build smarter, more responsible experiences.
+
+Over two days, the focus was on hands-on learning and technical discussions around Android’s evolving AI ecosystem, particularly on-device intelligence and developer tooling. While much of what was discussed aligns with publicly released Android AI features, the real value was in the broader context: how Google is thinking about AI on Android and what that means for developers building real products.
+
+One unexpectedly fun part of the event was the people. A lot of the engineers in the room were folks I’ve “known” for years through Android YouTube videos, Google I/O talks, and official learning guides. Seeing them in person was a little surreal. It felt a little awkward realizing I was treating Android engineers like celebrities, but in a sense, that’s exactly what they were to me. People I’d learned from for years, suddenly just standing next to me in line for coffee.
+
+There was also a hackathon where we got to experiment with newer AI features, whether on-device or in the cloud. I didn’t win, but I did walk away with a free pair of Google Pixel Buds 2. This felt like a victory in itself, especially since I’d been stubbornly clinging to wired headphones up until that point.
+
+Beyond the sessions, it was great connecting with other Android developers who are actively building AI features in production. Those conversations, swapping notes, sharing challenges, and learning how others think, were just as valuable as the talks themselves.
+
+Grateful to the Android team for the invitation and for including me in the Android Insiders Program. Events like this are a reminder of how thoughtful and collaborative the Android community continues to be, and I’m excited to carry those learnings forward as the platform evolves.`,
+        color: 'from-green-500 to-emerald-700'
+    },
+    {
+        id: 'droidcon-nyc',
+        title: 'Droidcon NYC @ Brooklyn Navy Yard',
+        date: 'June 25th to 26th, 2025',
+        preview: 'I get to attend Droidcon NYC this year by volunteering. This is partly because I genuinely enjoy helping out at community events, and partly because conference tickets are expensive and this was my workaround...',
+        content: `I get to attend Droidcon NYC this year by volunteering. This is partly because I genuinely enjoy helping out at community events, and partly because conference tickets are expensive and this was my workaround 😅. It ends up being a great experience.
+
+Volunteering gives me access to a lot of the talks I’m excited about, and the schedule makes it easy to balance helping out with sitting in on sessions. On the first day, I’m on t-shirt duty, handing out free shirts for both Android and Flutter. It was a surprisingly effective way to meet just about everyone at the conference.
+
+On day two, I’m a stage manager for the speakers. This is a fancy way of saying I quietly cue speakers when they’re running out of time and run around helping with whatever they need. It turns out to be perfect. I get a front-row seat to the talks while still being useful, which is exactly what I wanted.
+
+The event takes place at the Brooklyn Navy Yard, which I’m thankful for since I’m already in Brooklyn. The commute is easy. The venue temperature, however, is not. It’s easily one of the hottest two days of the summer, and the AC is doing its best (but not quite enough).
+
+Heat aside, it’s great meeting so many people who care deeply about Android and the community around it. Droidcon is a reminder that some of the best parts of conferences happen outside the talks. They happen in the conversations, shared complaints about the weather, and mutual excitement about building things.
+
+Hot venue, great people, and lots of free t-shirts. I would absolutely do it again.`,
+        color: 'from-purple-500 to-pink-500'
+    },
+    {
+        id: 'build-with-ai',
+        title: 'Build with AI @ Google NYC',
+        date: 'March 12, 2025',
+        preview: 'Recently, I attended Build with AI at Google’s New York office, a hands-on event focused on actually building AI systems, not just talking about them. The sessions dive into agent-based workflows...',
+        content: `Recently, I attended Build with AI at Google’s New York office, a hands-on event focused on actually building AI systems, not just talking about them. The sessions dive into agent-based workflows and how to design, customize, and orchestrate AI agents using Google’s AI tooling.
+
+After a few talks, we jump into a guided workshop where I build my first AI agent using Vertex AI Agent Builder. The workshop walks through designing an AI teaching assistant, which feels especially funny given that I work closely with TAs at CodePath. To be clear: this is not a replacement for them 😅. If anything, the exercise highlights how much thought goes into defining an agent’s role, limits, and success metrics before any “intelligence” shows up.
+
+The lab emphasizes intentional design: what problem the agent should solve, how autonomous it should be, what it can and can’t do, and how to ground it with real data. Building an agent around a teaching assistant makes those questions very real, very fast.
+
+And finally, I’d be lying if I didn’t mention the food. There are fresh waffles, extremely fancy catering, and waiters walking around with trays. It was the kind of setup I’ve only ever seen in movies. Easily the most luxurious environment I’ve ever written AI code in.
+
+Overall, it’s a fun, practical introduction to agent-based AI development with great people, great learning, and elite waffles.`,
+        color: 'from-blue-500 to-indigo-600'
+    }
+]
+
 import Header from './Header'
 import ScrollDownIndicator from './ScrollDownIndicator'
 
 const Overlay = () => {
     const [selectedExperience, setSelectedExperience] = useState(null)
+    const [selectedBlog, setSelectedBlog] = useState(null)
 
     return (
         <div className="absolute top-0 left-0 w-full z-10 pointer-events-none">
@@ -129,7 +185,7 @@ const Overlay = () => {
             {/* Experience Section */}
             <Section className="items-start" id="work">
                 <div className="max-w-6xl w-full mx-auto pointer-events-auto">
-                    <h2 className="text-4xl font-bold mb-12">Experience.</h2>
+                    <h2 className="text-4xl font-bold mb-12">Experience</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {experiences.map((exp) => (
                             <motion.div
@@ -233,22 +289,85 @@ const Overlay = () => {
 
             {/* Blog Section */}
             <Section className="items-start" id="blog">
-                <div className="max-w-4xl pointer-events-auto">
-                    <h2 className="text-4xl font-bold mb-8">Latest Thoughts.</h2>
-                    <div className="space-y-6">
-                        <div className="group cursor-pointer">
-                            <h3 className="text-xl font-bold group-hover:text-primary transition-colors">The Future of Mobile Architecture</h3>
-                            <p className="text-sm text-gray-500 mb-2">Oct 24, 2024</p>
-                            <p className="text-gray-400 text-sm">Exploring MVI and unidirectional data flow in modern mobile apps...</p>
-                        </div>
-                        <div className="group cursor-pointer">
-                            <h3 className="text-xl font-bold group-hover:text-primary transition-colors">Optimizing React Native Performance</h3>
-                            <p className="text-sm text-gray-500 mb-2">Sept 12, 2024</p>
-                            <p className="text-gray-400 text-sm">Tips and tricks for 60fps animations and faster startup times...</p>
-                        </div>
+                <div className="max-w-5xl w-full mx-auto pointer-events-auto">
+                    <h2 className="text-4xl font-bold mb-12">Latest Thoughts</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {blogs.map((blog) => (
+                            <motion.div
+                                key={blog.id}
+                                layoutId={`blog-${blog.id}`}
+                                onClick={() => setSelectedBlog(blog)}
+                                className="group relative p-6 bg-gray-900/50 border border-white/5 rounded-2xl cursor-pointer hover:bg-gray-800/50 transition-colors overflow-hidden"
+                            >
+                                <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${blog.color} opacity-50 group-hover:opacity-100 transition-opacity`} />
+
+                                <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{blog.title}</h3>
+                                <p className="text-sm text-gray-500 font-mono mb-4">{blog.date}</p>
+
+                                <p className="text-sm text-gray-400 line-clamp-3 mb-6">
+                                    {blog.preview}
+                                </p>
+
+                                <div className="flex items-center text-sm font-bold text-white group-hover:translate-x-1 transition-transform">
+                                    Read Article <ChevronRight className="w-4 h-4 ml-1" />
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </Section>
+
+            {/* Blog Detail Modal */}
+            <AnimatePresence>
+                {selectedBlog && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedBlog(null)}
+                            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 pointer-events-auto"
+                        />
+                        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none p-4">
+                            <motion.div
+                                layoutId={`blog-${selectedBlog.id}`}
+                                className="w-full max-w-2xl bg-gray-900 border border-white/10 rounded-2xl overflow-hidden pointer-events-auto shadow-2xl"
+                            >
+                                <div className={`h-2 w-full bg-gradient-to-r ${selectedBlog.color}`} />
+                                <div className="p-8 max-h-[80vh] overflow-y-auto">
+                                    <div className="flex justify-between items-start mb-6">
+                                        <div>
+                                            <h3 className="text-3xl font-bold mb-2">{selectedBlog.title}</h3>
+                                            <p className="text-gray-400 font-mono">{selectedBlog.date}</p>
+                                        </div>
+                                        <button
+                                            onClick={() => setSelectedBlog(null)}
+                                            className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+                                        >
+                                            <X className="w-5 h-5" />
+                                        </button>
+                                    </div>
+
+                                    <div className="prose prose-invert prose-sm max-w-none mb-8">
+                                        {selectedBlog.content.split('\n\n').map((paragraph, index) => (
+                                            <p key={index} className="text-gray-300 leading-relaxed text-lg mb-6">
+                                                {paragraph}
+                                            </p>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => setSelectedBlog(null)}
+                                        className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors"
+                                    >
+                                        Close Article
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </>
+                )}
+            </AnimatePresence>
 
             {/* Resume / Contact Section */}
             <Section className="items-center text-center" id="resume">
