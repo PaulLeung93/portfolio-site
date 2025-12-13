@@ -49,8 +49,8 @@ const HomeOS = () => {
             color: 'bg-indigo-500',
             content: (
                 <div className="p-12">
-                    <h2 className="text-8xl font-bold mb-10">About Me</h2>
-                    <p className="text-5xl text-gray-300 leading-relaxed">
+                    <h2 className={`text-8xl font-bold mb-10 ${!isDark ? 'text-gray-900' : 'text-white'}`}>About Me</h2>
+                    <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
                         I'm a passionate mobile developer with 5 years of experience building high-performance iOS and Android applications.
                     </p>
                 </div>
@@ -64,7 +64,7 @@ const HomeOS = () => {
             color: 'bg-blue-500',
             content: (
                 <div className="p-8 pb-48 space-y-16">
-                    <h2 className="text-9xl font-bold sticky top-0 bg-black/80 backdrop-blur-md py-10 z-10">Featured Work</h2>
+                    <h2 className={`text-9xl font-bold sticky top-0 backdrop-blur-md py-10 z-10 ${!isDark ? 'bg-white/80 text-gray-900' : 'bg-black/80 text-white'}`}>Featured Work</h2>
 
                     {projects.map((p, i) => (
                         <motion.div
@@ -72,7 +72,7 @@ const HomeOS = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-gray-900 rounded-[3rem] overflow-hidden border-2 border-white/10 shadow-2xl"
+                            className={`rounded-[3rem] overflow-hidden border-2 shadow-2xl ${!isDark ? 'bg-white border-gray-200' : 'bg-gray-900 border-white/10'}`}
                         >
                             {/* Media Placeholder - ideally a GIF */}
                             <div className="h-[32rem] bg-gray-800 relative overflow-hidden group-hover:opacity-90 transition-opacity">
@@ -85,17 +85,17 @@ const HomeOS = () => {
                             <div className="p-10">
                                 <div className="flex justify-between items-start mb-6">
                                     <div>
-                                        <h3 className="font-bold text-7xl leading-tight mb-4">{p.title}</h3>
-                                        <p className="text-5xl text-gray-400">{p.subtitle}</p>
+                                        <h3 className={`font-bold text-7xl leading-tight mb-4 ${!isDark ? 'text-gray-900' : 'text-white'}`}>{p.title}</h3>
+                                        <p className={`text-5xl ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}>{p.subtitle}</p>
                                     </div>
-                                    <a href={p.link} target="_blank" rel="noreferrer" className="p-5 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                                    <a href={p.link} target="_blank" rel="noreferrer" className={`p-5 rounded-full transition-colors ${!isDark ? 'bg-black/5 hover:bg-black/10 text-gray-900' : 'bg-white/10 hover:bg-white/20 text-white'}`}>
                                         <ExternalLink size={48} />
                                     </a>
                                 </div>
 
                                 <div className="flex flex-wrap gap-4 mt-8">
                                     {p.tech.map((t) => (
-                                        <span key={t} className="px-6 py-2 bg-white/5 rounded-2xl text-3xl text-gray-300 border border-white/5">
+                                        <span key={t} className={`px-6 py-2 rounded-2xl text-3xl border ${!isDark ? 'bg-black/5 text-gray-600 border-black/5' : 'bg-white/5 text-gray-300 border-white/5'}`}>
                                             {t}
                                         </span>
                                     ))}
@@ -123,29 +123,29 @@ const HomeOS = () => {
                         </div>
                     </div>
                     <div className="mb-12">
-                        <h3 className="text-5xl font-bold mb-2 text-center">Lo-Fi Beats</h3>
-                        <p className="text-3xl text-gray-400 text-center">Coding & Chill</p>
+                        <h3 className={`text-5xl font-bold mb-2 text-center ${!isDark ? 'text-gray-900' : 'text-white'}`}>Lo-Fi Beats</h3>
+                        <p className={`text-3xl text-center ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}>Coding & Chill</p>
                     </div>
                     <div className="flex flex-col gap-6 mb-12">
-                        <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-                            <div className="w-1/3 h-full bg-white rounded-full"></div>
+                        <div className={`w-full h-2 rounded-full overflow-hidden ${!isDark ? 'bg-gray-200' : 'bg-gray-800'}`}>
+                            <div className={`w-1/3 h-full rounded-full ${!isDark ? 'bg-black' : 'bg-white'}`}></div>
                         </div>
-                        <div className="flex justify-between text-2xl text-gray-500 font-medium">
+                        <div className={`flex justify-between text-2xl font-medium ${!isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                             <span>1:23</span>
                             <span>3:45</span>
                         </div>
                     </div>
                     <div className="flex items-center justify-center gap-12 pb-12">
-                        <button className="text-gray-400 hover:text-white transition-colors">
+                        <button className={`${!isDark ? 'text-gray-400 hover:text-black' : 'text-gray-400 hover:text-white'} transition-colors`}>
                             <SkipForward size={48} className="rotate-180" />
                         </button>
                         <button
                             onClick={() => setIsPlaying(!isPlaying)}
-                            className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 transition-transform"
+                            className={`w-24 h-24 rounded-full flex items-center justify-center hover:scale-105 transition-transform ${!isDark ? 'bg-black text-white' : 'bg-white text-black'}`}
                         >
-                            {isPlaying ? <Pause size={40} fill="black" /> : <Play size={40} fill="black" className="ml-1" />}
+                            {isPlaying ? <Pause size={40} fill={!isDark ? 'white' : 'black'} /> : <Play size={40} fill={!isDark ? 'white' : 'black'} className="ml-1" />}
                         </button>
-                        <button className="text-gray-400 hover:text-white transition-colors">
+                        <button className={`${!isDark ? 'text-gray-400 hover:text-black' : 'text-gray-400 hover:text-white'} transition-colors`}>
                             <SkipForward size={48} />
                         </button>
                     </div>
@@ -160,7 +160,7 @@ const HomeOS = () => {
             content: (
                 <div className="p-4 grid grid-cols-2 gap-4 pb-32">
                     <div className="col-span-2 py-4">
-                        <h2 className="text-5xl font-bold px-4">Recents</h2>
+                        <h2 className={`text-5xl font-bold px-4 ${!isDark ? 'text-gray-900' : 'text-white'}`}>Recents</h2>
                     </div>
                     {[1, 2, 3, 4, 5, 6].map((i) => (
                         <div key={i} className="aspect-square bg-gray-800 rounded-2xl overflow-hidden relative group">
@@ -258,7 +258,7 @@ const HomeOS = () => {
     // Apps configuration
 
 
-    const isSettingsLight = activeAppId === 'settings' && !isDark
+    // Apps configuration
 
     return (
         <div
@@ -318,13 +318,13 @@ const HomeOS = () => {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: 300, opacity: 0 }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className={`flex-1 w-full h-full relative pt-12 overflow-y-auto transition-colors duration-300 ${isSettingsLight ? 'bg-gray-100 text-black' : 'bg-black text-white'}`}
+                        className={`flex-1 w-full h-full relative pt-12 overflow-y-auto transition-colors duration-300 ${!isDark ? 'bg-gray-100 text-black' : 'bg-black text-white'}`}
                     >
                         {/* App Header */}
                         <div className="absolute top-12 left-0 w-full px-8 mb-6 flex items-center gap-4">
                             <button
                                 onClick={() => setActiveAppId(null)}
-                                className={`p-3 rounded-full transition-colors ${isSettingsLight ? 'hover:bg-black/10' : 'hover:bg-white/10'}`}
+                                className={`p-3 rounded-full transition-colors ${!isDark ? 'hover:bg-black/10' : 'hover:bg-white/10'}`}
                             >
                                 <ChevronLeft size={64} />
                             </button>
