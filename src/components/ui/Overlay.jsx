@@ -61,25 +61,27 @@ There was also a hackathon where we got to experiment with newer AI features, wh
 Beyond the sessions, it was great connecting with other Android developers who are actively building AI features in production. Those conversations, swapping notes, sharing challenges, and learning how others think, were just as valuable as the talks themselves.
 
 Grateful to the Android team for the invitation and for including me in the Android Insiders Program. Events like this are a reminder of how thoughtful and collaborative the Android community continues to be, and I’m excited to carry those learnings forward as the platform evolves.`,
-        color: 'from-green-500 to-emerald-700'
+        color: 'from-green-500 to-emerald-700',
+        images: ['ai-insiders-1.jpg', 'ai-insiders-2.jpg']
     },
     {
         id: 'droidcon-nyc',
         title: 'Droidcon NYC @ Brooklyn Navy Yard',
         date: 'June 25th to 26th, 2025',
-        preview: 'I get to attend Droidcon NYC this year by volunteering. This is partly because I genuinely enjoy helping out at community events, and partly because conference tickets are expensive and this was my workaround...',
-        content: `I get to attend Droidcon NYC this year by volunteering. This is partly because I genuinely enjoy helping out at community events, and partly because conference tickets are expensive and this was my workaround 😅. It ends up being a great experience.
+        preview: 'I attended Droidcon NYC this year as a volunteer! It was partly because I genuinely enjoy helping out at community events, and partly because conference tickets are expensive and this was my workaround...',
+        content: `I attended Droidcon NYC this year as a volunteer! It was partly because I genuinely enjoy helping out at community events, and partly because conference tickets are expensive and this was my workaround 😅. It ended up being a great experience.
 
-Volunteering gives me access to a lot of the talks I’m excited about, and the schedule makes it easy to balance helping out with sitting in on sessions. On the first day, I’m on t-shirt duty, handing out free shirts for both Android and Flutter. It was a surprisingly effective way to meet just about everyone at the conference.
+Volunteering gave me access to a lot of the talks I was excited about, and the schedule made it easy to balance helping out with sitting in on sessions. On the first day, I was on t-shirt duty, handing out free shirts for both Android and Flutter. It was a surprisingly effective way to meet just about everyone at the conference.
 
-On day two, I’m a stage manager for the speakers. This is a fancy way of saying I quietly cue speakers when they’re running out of time and run around helping with whatever they need. It turns out to be perfect. I get a front-row seat to the talks while still being useful, which is exactly what I wanted.
+On day two, I was a stage manager for the speakers. This was a fancy way of saying I quietly cued speakers when they were running out of time and ran around helping with whatever they needed. It turned out to be perfect. I got a front-row seat to the talks while still being useful, which is exactly what I wanted.
 
-The event takes place at the Brooklyn Navy Yard, which I’m thankful for since I’m already in Brooklyn. The commute is easy. The venue temperature, however, is not. It’s easily one of the hottest two days of the summer, and the AC is doing its best (but not quite enough).
+The event took place at the Brooklyn Navy Yard, which I was thankful for since I’m already in Brooklyn. The commute was easy. The venue temperature, however, was not. It was easily one of the hottest two days of the summer, and the AC was doing its best (but not quite enough).
 
 Heat aside, it’s great meeting so many people who care deeply about Android and the community around it. Droidcon is a reminder that some of the best parts of conferences happen outside the talks. They happen in the conversations, shared complaints about the weather, and mutual excitement about building things.
 
 Hot venue, great people, and lots of free t-shirts. I would absolutely do it again.`,
-        color: 'from-purple-500 to-pink-500'
+        color: 'from-purple-500 to-pink-500',
+        images: ['droidcon-1.jpg', 'droidcon-2.jpg']
     },
     {
         id: 'build-with-ai',
@@ -95,7 +97,8 @@ The lab emphasizes intentional design: what problem the agent should solve, how 
 And finally, I’d be lying if I didn’t mention the food. There are fresh waffles, extremely fancy catering, and waiters walking around with trays. It was the kind of setup I’ve only ever seen in movies. Easily the most luxurious environment I’ve ever written AI code in.
 
 Overall, it’s a fun, practical introduction to agent-based AI development with great people, great learning, and elite waffles.`,
-        color: 'from-blue-500 to-indigo-600'
+        color: 'from-blue-500 to-indigo-600',
+        images: ['build-with-ai-1.jpg', 'build-with-ai-2.jpg']
     }
 ]
 
@@ -105,6 +108,7 @@ import ScrollDownIndicator from './ScrollDownIndicator'
 const Overlay = ({ setPhoneModel, currentModel }) => {
     const [selectedExperience, setSelectedExperience] = useState(null)
     const [selectedBlog, setSelectedBlog] = useState(null)
+    const [selectedImage, setSelectedImage] = useState(null)
 
     return (
         <div className="absolute top-0 left-0 w-full z-10 pointer-events-none">
@@ -404,6 +408,27 @@ const Overlay = ({ setPhoneModel, currentModel }) => {
                                                 {paragraph}
                                             </p>
                                         ))}
+
+                                        {selectedBlog.images && selectedBlog.images.length > 0 && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                                                {selectedBlog.images.map((image, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="relative aspect-video rounded-xl overflow-hidden bg-gray-800 border border-white/5 cursor-zoom-in"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            setSelectedImage(image)
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={image}
+                                                            alt={`${selectedBlog.title} - Image ${index + 1}`}
+                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <button
@@ -416,6 +441,32 @@ const Overlay = ({ setPhoneModel, currentModel }) => {
                             </motion.div>
                         </div>
                     </>
+                )}
+            </AnimatePresence>
+
+            {/* Image Lightbox */}
+            <AnimatePresence>
+                {selectedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSelectedImage(null)}
+                        className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 pointer-events-auto cursor-zoom-out"
+                    >
+                        <motion.img
+                            src={selectedImage}
+                            alt="Full screen view"
+                            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                            layoutId={`image-${selectedImage}`}
+                        />
+                        <button
+                            onClick={() => setSelectedImage(null)}
+                            className="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white/20 text-white transition-colors"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+                    </motion.div>
                 )}
             </AnimatePresence>
 
