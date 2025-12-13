@@ -1,11 +1,13 @@
 import { Canvas } from '@react-three/fiber'
 import { Environment, OrbitControls, ContactShadows } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import PhoneModel from './components/canvas/PhoneModel'
 import Overlay from './components/ui/Overlay'
 import AnimatedBackground from './components/ui/AnimatedBackground'
 
 function App() {
+  const [phoneModel, setPhoneModel] = useState('default')
+
   return (
     <div className="w-full min-h-screen relative">
       {/* Animated Gradient Background - Behind everything */}
@@ -13,7 +15,7 @@ function App() {
         <AnimatedBackground />
       </div>
 
-      <Overlay />
+      <Overlay setPhoneModel={setPhoneModel} currentModel={phoneModel} />
 
       {/* 3D Scene - Absolute Background (Scrolls with page) */}
       <div className="absolute top-0 left-0 w-full h-screen z-0">
@@ -23,7 +25,7 @@ function App() {
 
           <Suspense fallback={null}>
             <group rotation={[0, 0, 0]}> {/* Initial rotation to face user */}
-              <PhoneModel scale={0.75} />
+              <PhoneModel scale={0.75} modelType={phoneModel} />
             </group>
           </Suspense>
 

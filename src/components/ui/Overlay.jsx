@@ -102,7 +102,7 @@ Overall, it’s a fun, practical introduction to agent-based AI development with
 import Header from './Header'
 import ScrollDownIndicator from './ScrollDownIndicator'
 
-const Overlay = () => {
+const Overlay = ({ setPhoneModel, currentModel }) => {
     const [selectedExperience, setSelectedExperience] = useState(null)
     const [selectedBlog, setSelectedBlog] = useState(null)
 
@@ -137,6 +137,36 @@ const Overlay = () => {
                         </div>
                     </motion.div>
                 </div>
+
+                {/* Phone Switcher - Floating on Right Side */}
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1, duration: 0.8 }}
+                    className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-end gap-4 pointer-events-auto hidden md:flex"
+                >
+                    <span className="text-sm text-gray-500 font-bold uppercase tracking-wider text-right">Select<br />Device</span>
+                    <div className="flex flex-col bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/10 gap-2">
+                        <button
+                            onClick={() => setPhoneModel('default')}
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${currentModel === 'default' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
+                            title="Default Black"
+                        >
+                            <div className="w-6 h-10 border-2 border-current rounded-[4px] relative bg-black/50 overflow-hidden">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-1 bg-current rounded-b-[2px]" />
+                            </div>
+                        </button>
+                        <button
+                            onClick={() => setPhoneModel('iphone')}
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${currentModel === 'iphone' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
+                            title="iPhone Titanium"
+                        >
+                            <div className="w-6 h-10 border-2 border-current rounded-[5px] relative overflow-hidden">
+                                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-2 h-[3px] bg-current rounded-full" />
+                            </div>
+                        </button>
+                    </div>
+                </motion.div>
             </Section>
 
             {/* Tech Stack / About Section */}
