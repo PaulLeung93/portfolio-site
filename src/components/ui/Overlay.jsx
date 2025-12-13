@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Code, Smartphone, Globe, Mail, X, ChevronRight, ExternalLink } from 'lucide-react'
 
 const Section = ({ children, className, ...props }) => (
-    <section className={`min-h-screen w-full flex flex-col justify-center p-8 ${className}`} {...props}>
+    <section className={`w-full flex flex-col justify-center py-32 px-8 ${className}`} {...props}>
         {children}
     </section>
 )
@@ -112,7 +112,7 @@ const Overlay = () => {
             <ScrollDownIndicator />
 
             {/* Hero Section */}
-            <Section className="items-start pt-20 relative" id="hero">
+            <Section className="min-h-screen items-start pt-20 relative" id="hero">
                 <div className="max-w-2xl">
                     <motion.div
                         className="pointer-events-auto"
@@ -289,7 +289,7 @@ const Overlay = () => {
 
             {/* Blog Section */}
             <Section className="items-start" id="blog">
-                <div className="max-w-5xl w-full mx-auto pointer-events-auto">
+                <div className="max-w-6xl w-full mx-auto pointer-events-auto">
                     <h2 className="text-4xl font-bold mb-12">Latest Thoughts</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {blogs.map((blog) => (
@@ -381,7 +381,7 @@ const Overlay = () => {
                     <div className="flex justify-center gap-4">
                         <button
                             type="button"
-                            style={{ pointerEvents: 'auto', zIndex: 9999, position: 'relative' }}
+                            style={{ pointerEvents: 'auto', position: 'relative' }}
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();

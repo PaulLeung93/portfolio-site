@@ -136,7 +136,7 @@ const HomeOS = () => {
                         </div>
 
                         {/* App Grid */}
-                        <div className="grid grid-cols-4 gap-y-6 gap-x-2">
+                        <div className="grid grid-cols-4 gap-y-16 gap-x-2">
                             {apps.map((app) => (
                                 <motion.div
                                     key={app.id}
