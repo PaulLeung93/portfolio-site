@@ -258,6 +258,8 @@ const HomeOS = () => {
     // Apps configuration
 
 
+    const isSettingsLight = activeAppId === 'settings' && !isDark
+
     return (
         <div
             className={`w-full h-full bg-black text-white select-none flex flex-col font-sans transition-colors duration-300 ${!isDark ? 'bg-gray-100 text-black' : ''}`}
@@ -316,13 +318,13 @@ const HomeOS = () => {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: 300, opacity: 0 }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="flex-1 bg-black w-full h-full relative pt-12 overflow-y-auto"
+                        className={`flex-1 w-full h-full relative pt-12 overflow-y-auto transition-colors duration-300 ${isSettingsLight ? 'bg-gray-100 text-black' : 'bg-black text-white'}`}
                     >
                         {/* App Header */}
                         <div className="absolute top-12 left-0 w-full px-8 mb-6 flex items-center gap-4">
                             <button
                                 onClick={() => setActiveAppId(null)}
-                                className="p-3 hover:bg-white/10 rounded-full transition-colors"
+                                className={`p-3 rounded-full transition-colors ${isSettingsLight ? 'hover:bg-black/10' : 'hover:bg-white/10'}`}
                             >
                                 <ChevronLeft size={64} />
                             </button>
