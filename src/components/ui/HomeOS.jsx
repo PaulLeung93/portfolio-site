@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { LayoutGrid, MessageSquare, Briefcase, User, Github, Linkedin, Battery, Wifi, Signal, ChevronLeft, ExternalLink, Music, Settings, Image as ImageIcon, Moon, Sun, Globe, Upload, Play, SkipForward, Pause, X, Check } from 'lucide-react'
 import { translations } from './translations'
 
+// Wallpaper Imports
+import wallpaperAndroid from '../../assets/wallpapers/android.png'
+import wallpaperIos from '../../assets/wallpapers/ios.png'
+import wallpaperFlutter from '../../assets/wallpapers/flutter.png'
+
 const HomeOS = () => {
     const [activeAppId, setActiveAppId] = useState(null)
     const [isDark, setIsDark] = useState(true)
@@ -10,9 +15,17 @@ const HomeOS = () => {
     const [wallpaper, setWallpaper] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [isLangOpen, setIsLangOpen] = useState(false)
+    const [isWallpaperOpen, setIsWallpaperOpen] = useState(false)
+    const [previewWallpaper, setPreviewWallpaper] = useState(null)
     const [uploadSuccess, setUploadSuccess] = useState(false)
 
     const t = translations[lang]
+
+    const wallpapers = [
+        { src: wallpaperAndroid, name: 'Android' },
+        { src: wallpaperIos, name: 'iOS' },
+        { src: wallpaperFlutter, name: 'Flutter' }
+    ]
 
     const languages = [
         { code: 'en', name: 'English' },
@@ -243,29 +256,18 @@ const HomeOS = () => {
                                 <div className="p-4 bg-pink-500 rounded-2xl"><Upload size={40} className="text-white" /></div>
                                 <span className="text-6xl font-medium">{t.wallpaper}</span>
                             </div>
-                            <label className={`text-5xl font-medium cursor-pointer transition-colors ${uploadSuccess ? 'text-green-500' : 'text-blue-500'}`}>
-                                {uploadSuccess ? (
-                                    <div className="flex items-center gap-2">
-                                        <Check size={48} />
-                                    </div>
-                                ) : (
-                                    t.select
-                                )}
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    className="hidden"
-                                    onChange={(e) => {
-                                        const file = e.target.files[0]
-                                        if (file) {
-                                            const url = URL.createObjectURL(file)
-                                            setWallpaper(url)
-                                            setUploadSuccess(true)
-                                            setTimeout(() => setUploadSuccess(false), 2000)
-                                        }
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => {
+                                        setPreviewWallpaper(wallpaper) // Initialize preview
+                                        setIsWallpaperOpen(true)
                                     }}
-                                />
-                            </label>
+                                    className={`text-5xl font-medium flex items-center gap-2 ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}
+                                >
+                                    {t.select}
+                                    <ChevronLeft size={32} className="rotate-180" />
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -280,7 +282,7 @@ const HomeOS = () => {
                                 className={`fixed inset-0 z-50 flex flex-col ${!isDark ? 'bg-gray-100' : 'bg-black'}`}
                             >
                                 <div className={`p-8 pt-12 flex items-center justify-between border-b ${!isDark ? 'border-gray-200 bg-white' : 'border-gray-800 bg-gray-900'}`}>
-                                    <span className="text-6xl font-bold px-4">{t.select}</span>
+                                    <span className="text-6xl font-bold px-4">{t.language}</span>
                                     <button onClick={() => setIsLangOpen(false)} className="p-4 rounded-full bg-gray-500/10">
                                         <X size={48} />
                                     </button>
@@ -303,6 +305,88 @@ const HomeOS = () => {
                                         </button>
                                     ))}
                                     <div className="h-32"></div>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {isWallpaperOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, y: '100%' }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: '100%' }}
+                                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                                className={`fixed inset-0 z-50 flex flex-col ${!isDark ? 'bg-gray-100' : 'bg-black'}`}
+                                onLayoutAnimationComplete={() => {
+                                    // Initialize preview with current wallpaper when opening
+                                    if (!previewWallpaper && wallpaper) setPreviewWallpaper(wallpaper)
+                                }}
+                            >
+                                <div className={`p-8 pt-12 flex items-center justify-between border-b ${!isDark ? 'border-gray-200 bg-white' : 'border-gray-800 bg-gray-900'}`}>
+                                    <span className="text-6xl font-bold px-4">{t.wallpaper}</span>
+                                    <button onClick={() => setIsWallpaperOpen(false)} className="p-4 rounded-full bg-gray-500/10">
+                                        <X size={48} />
+                                    </button>
+                                </div>
+                                <div className="flex-1 overflow-y-auto p-6 relative">
+                                    <div className="grid grid-cols-2 gap-6 mb-8">
+                                        {wallpapers.map((wp, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setPreviewWallpaper(wp.src)}
+                                                className={`relative aspect-[9/16] rounded-[2.5rem] overflow-hidden border-4 transition-all duration-300 ${previewWallpaper === wp.src ? 'border-blue-500 scale-95 shadow-xl' : 'border-transparent hover:scale-95 shadow-md'}`}
+                                            >
+                                                <img src={wp.src} alt={wp.name} className="w-full h-full object-cover" />
+                                                {previewWallpaper === wp.src && (
+                                                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center backdrop-blur-[1px]">
+                                                        <div className="bg-blue-500 p-3 rounded-full shadow-lg">
+                                                            <Check size={32} className="text-white" />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <div className="p-2 pb-48">
+                                        <label className={`w-full py-8 rounded-[2rem] flex items-center justify-center gap-4 text-4xl font-medium cursor-pointer transition-all active:scale-95 ${!isDark ? 'bg-white shadow-sm text-gray-700' : 'bg-gray-900 text-gray-300'} ${previewWallpaper && !wallpapers.find(w => w.src === previewWallpaper) ? 'ring-4 ring-blue-500' : ''}`}>
+                                            <Upload size={40} />
+                                            <span>{uploadSuccess ? 'Uploaded!' : 'Upload Custom'}</span>
+                                            {previewWallpaper && !wallpapers.find(w => w.src === previewWallpaper) && <Check size={40} className="text-blue-500" />}
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                className="hidden"
+                                                onChange={(e) => {
+                                                    const file = e.target.files[0]
+                                                    if (file) {
+                                                        const url = URL.createObjectURL(file)
+                                                        setPreviewWallpaper(url)
+                                                        setUploadSuccess(true)
+                                                        setTimeout(() => setUploadSuccess(false), 2000)
+                                                    }
+                                                }}
+                                            />
+                                        </label>
+                                    </div>
+
+                                    {/* Confirmation Button */}
+                                    <div className="absolute bottom-12 left-0 w-full px-8">
+                                        <button
+                                            onClick={() => {
+                                                if (previewWallpaper) {
+                                                    setWallpaper(previewWallpaper)
+                                                    setIsWallpaperOpen(false)
+                                                }
+                                            }}
+                                            disabled={!previewWallpaper || previewWallpaper === wallpaper}
+                                            className={`w-full py-6 rounded-[2rem] text-4xl font-bold shadow-xl transition-all ${previewWallpaper && previewWallpaper !== wallpaper
+                                                ? 'bg-blue-500 text-white hover:bg-blue-600 hover:scale-105'
+                                                : 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
+                                                }`}
+                                        >
+                                            Set Wallpaper
+                                        </button>
+                                    </div>
                                 </div>
                             </motion.div>
                         )}
