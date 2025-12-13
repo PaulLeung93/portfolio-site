@@ -10,6 +10,7 @@ const HomeOS = () => {
     const [wallpaper, setWallpaper] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [isLangOpen, setIsLangOpen] = useState(false)
+    const [uploadSuccess, setUploadSuccess] = useState(false)
 
     const t = translations[lang]
 
@@ -221,7 +222,7 @@ const HomeOS = () => {
                             </div>
                         </div>
 
-                        <div className="p-8 flex items-center justify-between relative z-20">
+                        <div className={`p-8 flex items-center justify-between relative z-20 border-b ${!isDark ? 'border-gray-100' : 'border-gray-800'}`}>
                             <div className="flex items-center gap-6">
                                 <div className="p-4 bg-orange-500 rounded-2xl"><Globe size={40} className="text-white" /></div>
                                 <span className="text-6xl font-medium">{t.language}</span>
@@ -236,16 +237,20 @@ const HomeOS = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
 
-                    <div className={`mx-6 rounded-3xl overflow-hidden transition-colors duration-300 ${!isDark ? 'bg-white shadow-lg' : 'bg-gray-900'}`}>
                         <div className="p-8 flex items-center justify-between">
                             <div className="flex items-center gap-6">
                                 <div className="p-4 bg-pink-500 rounded-2xl"><Upload size={40} className="text-white" /></div>
                                 <span className="text-6xl font-medium">{t.wallpaper}</span>
                             </div>
-                            <label className="text-5xl text-blue-500 font-medium cursor-pointer">
-                                {t.select}
+                            <label className={`text-5xl font-medium cursor-pointer transition-colors ${uploadSuccess ? 'text-green-500' : 'text-blue-500'}`}>
+                                {uploadSuccess ? (
+                                    <div className="flex items-center gap-2">
+                                        <Check size={48} />
+                                    </div>
+                                ) : (
+                                    t.select
+                                )}
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -255,6 +260,8 @@ const HomeOS = () => {
                                         if (file) {
                                             const url = URL.createObjectURL(file)
                                             setWallpaper(url)
+                                            setUploadSuccess(true)
+                                            setTimeout(() => setUploadSuccess(false), 2000)
                                         }
                                     }}
                                 />
@@ -332,7 +339,7 @@ const HomeOS = () => {
             style={wallpaper ? { backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
         >
             {/* Dark overlay for readability if wallpaper is set */}
-            {wallpaper && <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0" />}
+            {wallpaper && <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0 pointer-events-none" />}
 
             {/* Dynamic Island Area */}
             <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-50 pointer-events-none"></div>
@@ -345,7 +352,7 @@ const HomeOS = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
-                        className="flex-1 p-6 flex flex-col pt-16"
+                        className="flex-1 p-6 flex flex-col pt-16 relative z-10"
                     >
                         {/* Date Widget */}
                         <div className="mb-16 pl-2 relative z-10">
