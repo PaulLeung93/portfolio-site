@@ -1,5 +1,8 @@
 import { Html, useGLTF, RoundedBox, Cylinder, Text } from '@react-three/drei'
 import * as THREE from 'three'
+import { useState } from 'react'
+import { useSpring, animated } from '@react-spring/three'
+import { useFrame } from '@react-three/fiber'
 import HomeOS from '../ui/HomeOS'
 
 const PhoneModel = ({ modelType = 'default', ...props }) => {
@@ -226,6 +229,195 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     <meshStandardMaterial color="#787572" roughness={0.3} metalness={0.9} />
                 </RoundedBox>
 
+            </group>
+        )
+    }
+
+    if (modelType === 'flip7') {
+        // Samsung Galaxy Flip 7 - Blue Shadow
+        const [isFolded, setIsFolded] = useState(false)
+        const [isNearlyUnfolded, setIsNearlyUnfolded] = useState(true) // Track when animation is near completion
+
+        // Animation for folding - positive rotation folds screens together (inward)
+        const { rotationX, zOffset } = useSpring({
+            rotationX: isFolded ? Math.PI * 0.98 : 0, // Fold forward ~176 degrees
+            zOffset: isFolded ? 0.08 : 0, // Minimal offset for layering without visible gap (matches 'no gap' design)
+            config: { tension: 120, friction: 25 }
+        })
+
+        // Track rotation progress to show screen only when nearly unfolded
+        useFrame(() => {
+            const currentRotation = rotationX.get()
+            const nearlyUnfolded = currentRotation < 0.1
+            if (nearlyUnfolded !== isNearlyUnfolded) {
+                setIsNearlyUnfolded(nearlyUnfolded)
+            }
+        })
+
+        // Dimensions based on Galaxy Flip 7: 166.7mm tall unfolded, split at hinge
+        const halfHeight = 1.51 // Each half ~75mm height in our scale
+        const width = 1.5
+        const depth = 0.13
+        const radius = 0.15
+
+        // Blue Shadow color - deep blue with slight grey
+        const blueShadowColor = "#2c3e50"
+        const screenColor = "#000000"
+
+        // Create rounded rect shape for each half
+        const createHalfShape = (w, h, r) => {
+            const shape = new THREE.Shape()
+            const x = -w / 2
+            const y = -h / 2
+
+            shape.moveTo(x, y + r)
+            shape.lineTo(x, y + h - r)
+            shape.quadraticCurveTo(x, y + h, x + r, y + h)
+            shape.lineTo(x + w - r, y + h)
+            shape.quadraticCurveTo(x + w, y + h, x + w, y + h - r)
+            shape.lineTo(x + w, y + r)
+            shape.quadraticCurveTo(x + w, y, x + w - r, y)
+            shape.lineTo(x + radius, y)
+            shape.quadraticCurveTo(x, y, x, y + r)
+
+            return shape
+        }
+
+        const halfShape = createHalfShape(width, halfHeight, radius)
+        const extrudeSettings = {
+            depth: depth,
+            bevelEnabled: true,
+            bevelSegments: 3,
+            bevelSize: 0.01,
+            bevelThickness: 0.01
+        }
+
+        const LockScreen = () => (
+            <Html
+                transform
+                occlude
+                position={[0, 0, 0.001]}
+                style={{
+                    width: '600px',
+                    height: '600px',
+                    backgroundColor: '#0a0a0a',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    color: 'white'
+                }}
+                scale={0.028}
+            >
+                <div style={{ fontSize: '120px', fontWeight: '200', marginBottom: '10px' }}>
+                    {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                </div>
+                <div style={{ fontSize: '32px', opacity: 0.7 }}>
+                    {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+                </div>
+            </Html>
+        )
+
+        return (
+            <group {...props} dispose={null} onClick={() => setIsFolded(!isFolded)}>
+                {/* Bottom Half - Fixed */}
+                <group position={[0, -halfHeight / 2, 0]}>
+                    {/* Chassis */}
+                    <mesh position={[0, 0, -depth / 2]}>
+                        <extrudeGeometry args={[halfShape, extrudeSettings]} />
+                        <meshStandardMaterial color={blueShadowColor} roughness={0.4} metalness={0.7} />
+                    </mesh>
+
+                    {/* Back Glass */}
+                    <mesh position={[0, 0, -depth - 0.01]} rotation={[0, Math.PI, 0]}>
+                        <shapeGeometry args={[halfShape]} />
+                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} />
+                    </mesh>
+
+                    {/* Screen Surface - Bottom Half */}
+                    <mesh position={[0, 0, depth + 0.01]}>
+                        <shapeGeometry args={[halfShape]} />
+                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} />
+
+                        {/* Main Screen Content - Hide when folding, show only when fully unfolded */}
+                        {!isFolded && isNearlyUnfolded && (
+                            <group position={[0, halfHeight / 2, 0.001]}>
+                                <ScreenContent occlude="blending" scale={0.035} />
+                            </group>
+                        )}
+                    </mesh>
+                </group>
+
+                {/* Top Half - Rotates on hinge */}
+                {/* Pivot point is at y=0 (the hinge), meshes are offset by halfHeight/2 */}
+                <animated.group
+                    position-z={zOffset}
+                    rotation-x={rotationX}
+                >
+                    {/* Chassis */}
+                    <mesh position={[0, halfHeight / 2, -depth / 2]}>
+                        <extrudeGeometry args={[halfShape, extrudeSettings]} />
+                        <meshStandardMaterial color={blueShadowColor} roughness={0.4} metalness={0.7} />
+                    </mesh>
+
+                    {/* Back Glass */}
+                    <mesh position={[0, halfHeight / 2, -depth - 0.01]} rotation={[0, Math.PI, 0]}>
+                        <shapeGeometry args={[halfShape]} />
+                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} />
+
+                        {/* Cover Screen - Shows lock screen */}
+                        <group position={[0, 0.3, 0.001]}>
+                            <RoundedBox args={[1.0, 0.9, 0.005]} radius={0.08} smoothness={4}>
+                                <meshStandardMaterial color="#000" roughness={0.0} metalness={0.2} />
+                            </RoundedBox>
+                            <group position={[0, 0, 0.003]}>
+                                <LockScreen />
+                            </group>
+                        </group>
+                    </mesh>
+
+                    {/* Screen Surface - Top Half */}
+                    <mesh position={[0, halfHeight / 2, depth + 0.01]}>
+                        <shapeGeometry args={[halfShape]} />
+                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} />
+                    </mesh>
+
+                    {/* Camera System - Dual cameras */}
+                    <group position={[0.4, halfHeight / 2 + 0.5, -depth - 0.03]}>
+                        {/* Main Camera */}
+                        <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0.15, 0]}>
+                            <meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} />
+                        </Cylinder>
+                        {/* Ultra-wide Camera */}
+                        <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, -0.15, 0]}>
+                            <meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} />
+                        </Cylinder>
+                    </group>
+
+                    {/* Volume Rocker - attached to top half */}
+                    <RoundedBox args={[0.03, 0.5, 0.06]} radius={0.01} smoothness={4} position={[-width / 2 - 0.015, halfHeight / 2 + 0.5, 0]}>
+                        <meshStandardMaterial color={blueShadowColor} roughness={0.4} metalness={0.7} />
+                    </RoundedBox>
+                </animated.group>
+
+                {/* Hinge - Waterdrop/Flex Hinge Design */}
+                {/* Samsung's hinge is discrete and barely visible - represented as a thin strip */}
+                <RoundedBox
+                    args={[width - 0.1, 0.02, 0.04]}
+                    radius={0.005}
+                    smoothness={4}
+                    position={[0, 0, -depth - 0.005]}
+                >
+                    <meshStandardMaterial color="#0a0a0a" roughness={0.2} metalness={0.95} />
+                </RoundedBox>
+
+                {/* Side Buttons */}
+                {/* Power Button - attached to bottom half */}
+                <RoundedBox args={[0.03, 0.35, 0.06]} radius={0.01} smoothness={4} position={[width / 2 + 0.015, -0.3, 0]}>
+                    <meshStandardMaterial color={blueShadowColor} roughness={0.4} metalness={0.7} />
+                </RoundedBox>
             </group>
         )
     }
