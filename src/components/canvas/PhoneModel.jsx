@@ -256,7 +256,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
 
         // Dimensions based on Galaxy Flip 7: 166.7mm tall unfolded, split at hinge
         const halfHeight = 1.51 // Each half ~75mm height in our scale
-        const width = 1.5
+        const width = 1.28 // Reduced from 1.5 to be more realistic (narrower)
         const depth = 0.13
         const radius = 0.15
 
@@ -310,7 +310,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     fontFamily: 'system-ui, -apple-system, sans-serif',
                     color: 'white'
                 }}
-                scale={0.028}
+                scale={0.024}
             >
                 <div style={{ fontSize: '190px', fontWeight: '400', lineHeight: '0.85', marginBottom: '0px', letterSpacing: '-4px' }}>
                     {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
@@ -353,10 +353,10 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                             <group position={[0, halfHeight / 2, 0.001]}>
                                 {/* Opaque backing to prevent see-through */}
                                 <mesh position={[0, 0, -0.001]}>
-                                    <planeGeometry args={[1.4, 2.9]} />
+                                    <planeGeometry args={[1.2, 2.85]} />
                                     <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
                                 </mesh>
-                                <ScreenContent occlude="blending" scale={0.035} />
+                                <ScreenContent occlude="blending" scale={0.03} />
                             </group>
                         )}
                     </mesh>
@@ -389,7 +389,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                                 <group position={[0, 0, 0.001]}>
                                     {/* Opaque backing to prevent see-through */}
                                     <mesh position={[0, 0, -0.001]}>
-                                        <planeGeometry args={[1.4, 1.45]} />
+                                        <planeGeometry args={[1.2, 1.4]} />
                                         <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
                                     </mesh>
                                     <LockScreen />
