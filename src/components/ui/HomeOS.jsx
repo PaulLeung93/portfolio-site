@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { LayoutGrid, MessageSquare, Briefcase, User, Github, Linkedin, Battery, Wifi, Signal, ChevronLeft, ExternalLink, Music, Settings, Image as ImageIcon, Moon, Sun, Globe, Upload, Play, SkipForward, Pause } from 'lucide-react'
+import { LayoutGrid, MessageSquare, Briefcase, User, Github, Linkedin, Battery, Wifi, Signal, ChevronLeft, ExternalLink, Music, Settings, Image as ImageIcon, Moon, Sun, Globe, Upload, Play, SkipForward, Pause, X, Check } from 'lucide-react'
+import { translations } from './translations'
 
 const HomeOS = () => {
     const [activeAppId, setActiveAppId] = useState(null)
@@ -8,6 +9,26 @@ const HomeOS = () => {
     const [lang, setLang] = useState('en')
     const [wallpaper, setWallpaper] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
+    const [isLangOpen, setIsLangOpen] = useState(false)
+
+    const t = translations[lang]
+
+    const languages = [
+        { code: 'en', name: 'English' },
+        { code: 'es', name: 'Español' },
+        { code: 'fr', name: 'Français' },
+        { code: 'de', name: 'Deutsch' },
+        { code: 'it', name: 'Italiano' },
+        { code: 'pt', name: 'Português' },
+        { code: 'ru', name: 'Русский' },
+        { code: 'ja', name: '日本語' },
+        { code: 'zh', name: '中文' },
+        { code: 'ko', name: '한국어' },
+        { code: 'hi', name: 'हिंदी' },
+        { code: 'bn', name: 'বাংলা' },
+        { code: 'ar', name: 'العربية' },
+        { code: 'id', name: 'Bahasa Indonesia' },
+    ]
 
 
 
@@ -44,27 +65,27 @@ const HomeOS = () => {
     const apps = [
         {
             id: 'about',
-            name: 'About',
+            name: t.about,
             icon: User,
             color: 'bg-indigo-500',
             content: (
                 <div className="p-12">
-                    <h2 className={`text-8xl font-bold mb-10 ${!isDark ? 'text-gray-900' : 'text-white'}`}>About Me</h2>
+                    <h2 className={`text-8xl font-bold mb-10 ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.aboutMe}</h2>
                     <p className={`text-5xl leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-300'}`}>
-                        I'm a passionate mobile developer with 5 years of experience building high-performance iOS and Android applications.
+                        {t.aboutDesc}
                     </p>
                 </div>
             )
         },
-        { id: 'contact', name: 'Contact', icon: MessageSquare, color: 'bg-green-500', content: <div className="p-12 text-7xl font-bold">Contact Me</div> },
+        { id: 'contact', name: t.contact, icon: MessageSquare, color: 'bg-green-500', content: <div className="p-12 text-7xl font-bold">{t.contactMe}</div> },
         {
             id: 'projects',
-            name: 'Projects',
+            name: t.projects,
             icon: Briefcase,
             color: 'bg-blue-500',
             content: (
                 <div className="p-8 pb-48 space-y-16">
-                    <h2 className={`text-9xl font-bold sticky top-0 backdrop-blur-md py-10 z-10 ${!isDark ? 'bg-white/80 text-gray-900' : 'bg-black/80 text-white'}`}>Featured Work</h2>
+                    <h2 className={`text-9xl font-bold sticky top-0 backdrop-blur-md py-10 z-10 ${!isDark ? 'bg-white/80 text-gray-900' : 'bg-black/80 text-white'}`}>{t.featuredWork}</h2>
 
                     {projects.map((p, i) => (
                         <motion.div
@@ -78,7 +99,7 @@ const HomeOS = () => {
                             <div className="h-[32rem] bg-gray-800 relative overflow-hidden group-hover:opacity-90 transition-opacity">
                                 <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                    <span className="bg-black/50 px-10 py-5 rounded-full text-5xl backdrop-blur-md">Play Demo</span>
+                                    <span className="bg-black/50 px-10 py-5 rounded-full text-5xl backdrop-blur-md">{t.playDemo}</span>
                                 </div>
                             </div>
 
@@ -105,14 +126,14 @@ const HomeOS = () => {
                     ))}
 
                     <div className="text-center text-4xl text-gray-500 py-10">
-                        Tap project to view code
+                        {t.tapToView}
                     </div>
                 </div>
             )
         },
         {
             id: 'music',
-            name: 'Music',
+            name: t.music,
             icon: Music,
             color: 'bg-red-500',
             content: (
@@ -123,8 +144,8 @@ const HomeOS = () => {
                         </div>
                     </div>
                     <div className="mb-12">
-                        <h3 className={`text-5xl font-bold mb-2 text-center ${!isDark ? 'text-gray-900' : 'text-white'}`}>Lo-Fi Beats</h3>
-                        <p className={`text-3xl text-center ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}>Coding & Chill</p>
+                        <h3 className={`text-5xl font-bold mb-2 text-center ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.lofiBeats}</h3>
+                        <p className={`text-3xl text-center ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}>{t.codingChill}</p>
                     </div>
                     <div className="flex flex-col gap-6 mb-12">
                         <div className={`w-full h-2 rounded-full overflow-hidden ${!isDark ? 'bg-gray-200' : 'bg-gray-800'}`}>
@@ -154,13 +175,13 @@ const HomeOS = () => {
         },
         {
             id: 'photos',
-            name: 'Photos',
+            name: t.photos,
             icon: ImageIcon,
             color: 'bg-yellow-500',
             content: (
                 <div className="p-4 grid grid-cols-2 gap-4 pb-32">
                     <div className="col-span-2 py-4">
-                        <h2 className={`text-5xl font-bold px-4 ${!isDark ? 'text-gray-900' : 'text-white'}`}>Recents</h2>
+                        <h2 className={`text-5xl font-bold px-4 ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.recents}</h2>
                     </div>
                     {[1, 2, 3, 4, 5, 6].map((i) => (
                         <div key={i} className="aspect-square bg-gray-800 rounded-2xl overflow-hidden relative group">
@@ -172,14 +193,14 @@ const HomeOS = () => {
                         </div>
                     ))}
                     <div className="col-span-2 py-8 text-center text-gray-500 text-3xl">
-                        {lang === 'en' ? '6 Photos' : lang === 'es' ? '6 Fotos' : '6 Fotos'}
+                        {t.photoCount}
                     </div>
                 </div>
             )
         },
         {
             id: 'settings',
-            name: 'Settings',
+            name: t.settings,
             icon: Settings,
             color: 'bg-gray-600',
             content: (
@@ -190,7 +211,7 @@ const HomeOS = () => {
                         <div className={`p-8 flex items-center justify-between border-b ${!isDark ? 'border-gray-100' : 'border-gray-800'}`}>
                             <div className="flex items-center gap-6">
                                 <div className="p-4 bg-blue-500 rounded-2xl"><Moon size={40} className="text-white" /></div>
-                                <span className="text-6xl font-medium">Dark Mode</span>
+                                <span className="text-6xl font-medium">{t.darkMode}</span>
                             </div>
                             <div
                                 onClick={() => setIsDark(!isDark)}
@@ -200,21 +221,19 @@ const HomeOS = () => {
                             </div>
                         </div>
 
-                        <div className="p-8 flex items-center justify-between">
+                        <div className="p-8 flex items-center justify-between relative z-20">
                             <div className="flex items-center gap-6">
                                 <div className="p-4 bg-orange-500 rounded-2xl"><Globe size={40} className="text-white" /></div>
-                                <span className="text-6xl font-medium">Language</span>
+                                <span className="text-6xl font-medium">{t.language}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <select
-                                    value={lang}
-                                    onChange={(e) => setLang(e.target.value)}
-                                    className="bg-transparent text-gray-400 text-5xl outline-none text-right"
+                                <button
+                                    onClick={() => setIsLangOpen(true)}
+                                    className={`text-5xl font-medium flex items-center gap-2 ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}
                                 >
-                                    <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                    <option value="de">Deutsch</option>
-                                </select>
+                                    {languages.find(l => l.code === lang)?.name}
+                                    <ChevronLeft size={32} className="rotate-180" />
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -223,10 +242,10 @@ const HomeOS = () => {
                         <div className="p-8 flex items-center justify-between">
                             <div className="flex items-center gap-6">
                                 <div className="p-4 bg-pink-500 rounded-2xl"><Upload size={40} className="text-white" /></div>
-                                <span className="text-6xl font-medium">Wallpaper</span>
+                                <span className="text-6xl font-medium">{t.wallpaper}</span>
                             </div>
                             <label className="text-5xl text-blue-500 font-medium cursor-pointer">
-                                Select
+                                {t.select}
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -242,6 +261,45 @@ const HomeOS = () => {
                             </label>
                         </div>
                     </div>
+
+                    {/* Language Modal/Dropdown Portal-like behavior */}
+                    <AnimatePresence>
+                        {isLangOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, y: '-100%' }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: '-100%' }}
+                                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                                className={`fixed inset-0 z-50 flex flex-col ${!isDark ? 'bg-gray-100' : 'bg-black'}`}
+                            >
+                                <div className={`p-8 pt-12 flex items-center justify-between border-b ${!isDark ? 'border-gray-200 bg-white' : 'border-gray-800 bg-gray-900'}`}>
+                                    <span className="text-6xl font-bold px-4">{t.select}</span>
+                                    <button onClick={() => setIsLangOpen(false)} className="p-4 rounded-full bg-gray-500/10">
+                                        <X size={48} />
+                                    </button>
+                                </div>
+                                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                                    {languages.map((l) => (
+                                        <button
+                                            key={l.code}
+                                            onClick={() => {
+                                                setLang(l.code)
+                                                setIsLangOpen(false)
+                                            }}
+                                            className={`w-full p-8 rounded-3xl flex items-center justify-between text-5xl font-medium transition-colors ${lang === l.code
+                                                ? (!isDark ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white')
+                                                : (!isDark ? 'bg-white text-gray-900 hover:bg-gray-200' : 'bg-gray-900 text-gray-200 hover:bg-gray-800')
+                                                }`}
+                                        >
+                                            <span>{l.name}</span>
+                                            {lang === l.code && <Check size={40} />}
+                                        </button>
+                                    ))}
+                                    <div className="h-32"></div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             )
         },
@@ -250,8 +308,16 @@ const HomeOS = () => {
     ]
     const activeApp = apps.find(a => a.id === activeAppId)
     const now = new Date()
-    const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' })
-    const monthDay = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+
+    // Map internal lang keys to standard locale strings
+    const localeMap = {
+        en: 'en-US', es: 'es-ES', de: 'de-DE', fr: 'fr-FR', it: 'it-IT',
+        pt: 'pt-PT', ru: 'ru-RU', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR',
+        hi: 'hi-IN', bn: 'bn-BD', ar: 'ar-SA', id: 'id-ID'
+    }
+    const locale = localeMap[lang] || 'en-US'
+    const dayOfWeek = now.toLocaleDateString(locale, { weekday: 'long' })
+    const monthDay = now.toLocaleDateString(locale, { month: 'long', day: 'numeric' })
 
 
 
