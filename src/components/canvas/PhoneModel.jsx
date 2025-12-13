@@ -7,14 +7,14 @@ import HomeOS from '../ui/HomeOS'
 
 const PhoneModel = ({ modelType = 'default', ...props }) => {
     // Shared Screen Logic
-    const ScreenContent = ({ occlude, scale = 0.035 }) => (
+    const ScreenContent = ({ occlude, scale = 0.035, height = '2850px' }) => (
         <Html
             transform
             occlude={occlude}
             position={[0, 0, 0.05]}
             style={{
                 width: '1400px',
-                height: '2850px',
+                height: height,
                 backgroundColor: 'black',
                 overflow: 'hidden'
             }}
@@ -301,7 +301,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                 style={{
                     width: '600px',
                     height: '600px',
-                    backgroundColor: '#0a0a0a',
+                    backgroundColor: 'transparent',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -356,7 +356,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                                     <planeGeometry args={[1.2, 2.85]} />
                                     <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
                                 </mesh>
-                                <ScreenContent occlude="blending" scale={0.03} />
+                                <ScreenContent occlude="blending" scale={0.03} height="3350px" />
                             </group>
                         )}
                     </mesh>
