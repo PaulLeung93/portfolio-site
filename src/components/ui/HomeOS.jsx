@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { LayoutGrid, MessageSquare, Briefcase, User, Github, Linkedin, Battery, Wifi, Signal, ChevronLeft, ExternalLink, Music, Settings, Image as ImageIcon, Moon, Sun, Globe, Upload, Play, SkipForward, Pause, X, Check } from 'lucide-react'
+import { LayoutGrid, MessageSquare, Briefcase, User, Github, Linkedin, Battery, Wifi, Signal, ChevronLeft, ExternalLink, Music, Settings, Image as ImageIcon, Moon, Sun, Globe, Upload, Play, SkipForward, Pause, X, Check, Mail } from 'lucide-react'
 import { translations } from './translations'
 
 // Wallpaper Imports
@@ -8,6 +8,14 @@ import wallpaperAndroid from '../../assets/wallpapers/android.png'
 import wallpaperIos from '../../assets/wallpapers/ios.png'
 import wallpaperFlutter from '../../assets/wallpapers/flutter.png'
 import profilePic from '../../assets/profile-pic.jpg'
+
+// Photo Imports
+import droidcon1 from '../../assets/photos/droidcon-1.jpg'
+import droidcon2 from '../../assets/photos/droidcon-2.jpg'
+import aiInsiders1 from '../../assets/photos/ai-insiders-1.jpg'
+import aiInsiders2 from '../../assets/photos/ai-insiders-2.jpg'
+import buildWithAi1 from '../../assets/photos/build-with-ai-1.jpg'
+import buildWithAi2 from '../../assets/photos/build-with-ai-2.jpg'
 
 const HomeOS = () => {
     const [activeAppId, setActiveAppId] = useState(null)
@@ -19,6 +27,7 @@ const HomeOS = () => {
     const [isWallpaperOpen, setIsWallpaperOpen] = useState(false)
     const [previewWallpaper, setPreviewWallpaper] = useState(null)
     const [uploadSuccess, setUploadSuccess] = useState(false)
+    const [selectedPhoto, setSelectedPhoto] = useState(null)
 
     const t = translations[lang]
 
@@ -76,6 +85,16 @@ const HomeOS = () => {
         }
     ]
 
+    // Custom Photos Data
+    const myPhotos = [
+        { id: 1, src: droidcon1, caption: 'Droidcon NYC 2025' },
+        { id: 2, src: droidcon2, caption: 'GenAI on Android!' },
+        { id: 3, src: aiInsiders1, caption: 'Android AI Insiders' },
+        { id: 4, src: aiInsiders2, caption: 'Google NYC' },
+        { id: 5, src: buildWithAi1, caption: 'Build with AI' },
+        { id: 6, src: buildWithAi2, caption: 'Agent Workshop' },
+    ]
+
     // Apps configuration
     const apps = [
         {
@@ -123,7 +142,57 @@ const HomeOS = () => {
                 </div>
             )
         },
-        { id: 'contact', name: t.contact, icon: MessageSquare, color: 'bg-green-500', content: <div className="p-12 text-7xl font-bold">{t.contactMe}</div> },
+        {
+            id: 'contact',
+            name: t.contact,
+            icon: MessageSquare,
+            color: 'bg-green-500',
+            content: (
+                <div className="h-full flex flex-col items-center justify-center p-8">
+                    {/* Digital Business Card */}
+                    <div className={`w-full max-w-[90%] rounded-[5rem] p-16 shadow-2xl border-4 mb-16 ${!isDark ? 'bg-white border-gray-100' : 'bg-gray-800 border-gray-700'}`}>
+                        <div className="flex flex-col items-center text-center">
+                            <div className="w-80 h-80 rounded-full border-[12px] border-blue-500 overflow-hidden mb-12 shadow-2xl">
+                                <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
+                            </div>
+                            <h2 className={`text-9xl font-bold mb-6 ${!isDark ? 'text-gray-900' : 'text-white'}`}>Paul Leung</h2>
+                            <p className={`text-6xl font-medium mb-16 ${!isDark ? 'text-blue-500' : 'text-blue-400'}`}>Mobile Engineer</p>
+
+                            <div className="flex gap-12 w-full justify-center">
+                                <a
+                                    href="mailto:PaulLeung93@gmail.com"
+                                    className={`p-10 rounded-[3rem] transition-transform hover:scale-110 active:scale-95 ${!isDark ? 'bg-gray-100 text-gray-700' : 'bg-gray-700 text-gray-200'}`}
+                                >
+                                    <Mail size={80} />
+                                </a>
+                                <a
+                                    href="https://www.linkedin.com/in/paulleung1993/"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={`p-10 rounded-[3rem] transition-transform hover:scale-110 active:scale-95 ${!isDark ? 'bg-blue-50 text-blue-600' : 'bg-blue-900/30 text-blue-400'}`}
+                                >
+                                    <Linkedin size={80} />
+                                </a>
+                                <a
+                                    href="https://github.com/PaulLeung93"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={`p-10 rounded-[3rem] transition-transform hover:scale-110 active:scale-95 ${!isDark ? 'bg-gray-900 text-white' : 'bg-black text-white'}`}
+                                >
+                                    <Github size={80} />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={`w-full max-w-[90%] p-12 rounded-[4rem] text-center ${!isDark ? 'bg-gray-200/50' : 'bg-white/5'}`}>
+                        <p className={`text-6xl font-medium leading-relaxed ${!isDark ? 'text-gray-600' : 'text-gray-400'}`}>
+                            "Always happy to chat!"
+                        </p>
+                    </div>
+                </div>
+            )
+        },
         {
             id: 'projects',
             name: t.projects,
@@ -217,22 +286,30 @@ const HomeOS = () => {
             icon: ImageIcon,
             color: 'bg-yellow-500',
             content: (
-                <div className="p-4 grid grid-cols-2 gap-4 pb-32">
-                    <div className="col-span-2 py-4">
-                        <h2 className={`text-5xl font-bold px-4 ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.recents}</h2>
-                    </div>
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
-                        <div key={i} className="aspect-square bg-gray-800 rounded-2xl overflow-hidden relative group">
-                            <img
-                                src={`https://images.unsplash.com/photo-${i === 1 ? '1540553016337-6100a7ac6dcf' : i === 2 ? '1505373872125-38d5f22d9961' : i === 3 ? '1517694712202-14dd9538aa97' : '1550745165-9bc0b252726f'}?auto=format&fit=crop&w=400&q=80`}
-                                alt="Event"
-                                className="w-full h-full object-cover"
-                            />
+                <div className="relative h-full flex flex-col">
+                    <div className="p-4 grid grid-cols-2 gap-4 pb-32 overflow-y-auto">
+                        <div className="col-span-2 py-4">
+                            <h2 className={`text-5xl font-bold px-4 ${!isDark ? 'text-gray-900' : 'text-white'}`}>{t.recents}</h2>
                         </div>
-                    ))}
-                    <div className="col-span-2 py-8 text-center text-gray-500 text-3xl">
-                        {t.photoCount}
+                        {myPhotos.map((photo) => (
+                            <motion.button
+                                key={photo.id}
+                                layoutId={`photo-${photo.id}`}
+                                onClick={() => setSelectedPhoto(photo)}
+                                className="aspect-square bg-gray-800 rounded-2xl overflow-hidden relative group cursor-pointer border-0 p-0"
+                            >
+                                <img
+                                    src={photo.src}
+                                    alt={photo.caption}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                            </motion.button>
+                        ))}
+                        <div className="col-span-2 py-8 text-center text-gray-500 text-3xl">
+                            {myPhotos.length} Photos
+                        </div>
                     </div>
+
                 </div>
             )
         },
@@ -519,6 +596,46 @@ const HomeOS = () => {
                         <div className="mt-24">
                             {activeApp.content}
                         </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Global Lightbox Overlay */}
+            <AnimatePresence>
+                {selectedPhoto && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-[60] bg-black/95 flex flex-col items-center justify-center p-8 pointer-events-auto"
+                        onClick={() => setSelectedPhoto(null)}
+                    >
+                        <motion.div
+                            layoutId={`photo-${selectedPhoto.id}`}
+                            className="w-full aspect-square bg-gray-900 rounded-3xl overflow-hidden shadow-2xl mb-12 relative"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <img
+                                src={selectedPhoto.src}
+                                alt={selectedPhoto.caption}
+                                className="w-full h-full object-contain"
+                            />
+                        </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 20 }}
+                            className="text-center w-full"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <p className="text-white text-5xl font-medium mb-12">{selectedPhoto.caption}</p>
+                            <button
+                                onClick={() => setSelectedPhoto(null)}
+                                className="px-12 py-5 bg-white/10 rounded-full text-white text-4xl backdrop-blur-md border border-white/20 active:scale-95 transition-transform"
+                            >
+                                Close
+                            </button>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
