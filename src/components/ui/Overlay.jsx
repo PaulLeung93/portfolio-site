@@ -154,7 +154,7 @@ const Overlay = () => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 console.log('Button clicked!');
-                                fetch('/Paul%20Leung%20Resume.pdf')
+                                fetch('Paul%20Leung%20Resume.pdf')
                                     .then(response => response.blob())
                                     .then(blob => {
                                         const url = window.URL.createObjectURL(blob);
