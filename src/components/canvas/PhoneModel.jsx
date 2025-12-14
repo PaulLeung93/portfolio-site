@@ -11,7 +11,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
         <Html
             transform
             occlude={occlude}
-            position={[0, 0, 0.05]}
+            position={[0, 0, 0.001]}
             style={{
                 width: '1400px',
                 height: height,
@@ -69,10 +69,22 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} />
                 </mesh>
 
-                {/* 2. Back Glass - SURFACE SHAPE - White Porcelain / Soft Matte */}
-                <mesh position={[0, 0, -0.091]} rotation={[0, Math.PI, 0]}>
+                {/* Opaque backing layer - preventing see-through */}
+                <mesh position={[0, 0, 0]}>
                     <shapeGeometry args={[shape]} />
-                    <meshStandardMaterial color="#f5f5f5" roughness={0.6} metalness={0.1} />
+                    <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
+                </mesh>
+
+                {/* 2. Back Glass - SURFACE SHAPE - White Porcelain / Soft Matte */}
+                <mesh position={[0, 0, -0.090]} rotation={[0, Math.PI, 0]}>
+                    <shapeGeometry args={[shape]} />
+                    <meshStandardMaterial
+                        color="#f5f5f5"
+                        roughness={0.6}
+                        metalness={0.1}
+                        polygonOffset
+                        polygonOffsetFactor={-1}
+                    />
 
                     {/* Google G Logo */}
                     <Html
@@ -90,9 +102,15 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                 </mesh>
 
                 {/* 3. Screen - SURFACE SHAPE */}
-                <mesh position={[0, 0, 0.091]}>
+                <mesh position={[0, 0, 0.090]}>
                     <shapeGeometry args={[shape]} />
-                    <meshStandardMaterial color="black" roughness={0.0} metalness={0.2} />
+                    <meshStandardMaterial
+                        color="black"
+                        roughness={0.0}
+                        metalness={0.2}
+                        polygonOffset
+                        polygonOffsetFactor={-1}
+                    />
 
                     {/* Screen Content */}
                     <group position={[0, 0, 0.001]}>
@@ -155,11 +173,23 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     <meshStandardMaterial color="#787572" roughness={0.3} metalness={0.9} />
                 </mesh>
 
+                {/* Opaque backing layer - preventing see-through */}
+                <mesh position={[0, 0, 0]}>
+                    <shapeGeometry args={[shape]} />
+                    <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
+                </mesh>
+
                 {/* 2. Back Glass - SURFACE SHAPE */}
                 {/* Matches chassis contour exactly. Positioned at back face Z (-0.075 - bevel) */}
-                <mesh position={[0, 0, -0.091]} rotation={[0, Math.PI, 0]}> {/* Rotated to face back */}
+                <mesh position={[0, 0, -0.090]} rotation={[0, Math.PI, 0]}> {/* Rotated to face back */}
                     <shapeGeometry args={[shape]} />
-                    <meshStandardMaterial color="#686663" roughness={0.4} metalness={0.4} />
+                    <meshStandardMaterial
+                        color="#686663"
+                        roughness={0.4}
+                        metalness={0.4}
+                        polygonOffset
+                        polygonOffsetFactor={-1}
+                    />
 
                     {/* Apple Logo - Attached to Back Glass */}
                     <Html
@@ -178,9 +208,15 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
 
                 {/* 3. Screen - SURFACE SHAPE */}
                 {/* Matches chassis contour exactly. Positioned at front face Z (+0.075 + bevel) */}
-                <mesh position={[0, 0, 0.091]}> {/* Manual offset to clear bevel */}
+                <mesh position={[0, 0, 0.090]}> {/* Manual offset to clear bevel */}
                     <shapeGeometry args={[shape]} />
-                    <meshStandardMaterial color="black" roughness={0.0} metalness={0.2} />
+                    <meshStandardMaterial
+                        color="black"
+                        roughness={0.0}
+                        metalness={0.2}
+                        polygonOffset
+                        polygonOffsetFactor={-1}
+                    />
 
                     {/* Screen Content - HTML Overlay */}
                     <group position={[0, 0, 0.001]}>
@@ -332,9 +368,16 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     </mesh>
 
                     {/* Back Glass */}
-                    <mesh position={[0, 0, -depth - 0.01]} rotation={[0, Math.PI, 0]}>
+                    <mesh position={[0, 0, -depth / 2 - 0.01]} rotation={[0, Math.PI, 0]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} side={THREE.BackSide} />
+                        <meshStandardMaterial
+                            color={blueShadowColor}
+                            roughness={0.3}
+                            metalness={0.6}
+                            side={THREE.BackSide}
+                            polygonOffset
+                            polygonOffsetFactor={-1}
+                        />
                     </mesh>
 
                     {/* Opaque backing layer - prevents see-through */}
@@ -344,9 +387,16 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     </mesh>
 
                     {/* Screen Surface - Bottom Half */}
-                    <mesh position={[0, 0, depth + 0.01]}>
+                    <mesh position={[0, 0, depth / 2 + 0.01]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} side={THREE.FrontSide} />
+                        <meshStandardMaterial
+                            color={screenColor}
+                            roughness={0.0}
+                            metalness={0.2}
+                            side={THREE.FrontSide}
+                            polygonOffset
+                            polygonOffsetFactor={-1}
+                        />
 
                         {/* Main Screen Content - Hide when folding, show only when fully unfolded */}
                         {!isFolded && isNearlyUnfolded && (
@@ -375,9 +425,16 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     </mesh>
 
                     {/* Back Glass */}
-                    <mesh position={[0, halfHeight / 2, -depth - 0.01]} rotation={[0, Math.PI, 0]}>
+                    <mesh position={[0, halfHeight / 2, -depth / 2 - 0.01]} rotation={[0, Math.PI, 0]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={blueShadowColor} roughness={0.3} metalness={0.6} side={THREE.BackSide} />
+                        <meshStandardMaterial
+                            color={blueShadowColor}
+                            roughness={0.3}
+                            metalness={0.6}
+                            side={THREE.BackSide}
+                            polygonOffset
+                            polygonOffsetFactor={-1}
+                        />
 
                         {/* Cover Screen - Full coverage display (Galaxy Flip 7 style) */}
                         {/* Nearly fills entire back surface with minimal bezels */}
@@ -405,9 +462,16 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                     </mesh>
 
                     {/* Screen Surface - Top Half */}
-                    <mesh position={[0, halfHeight / 2, depth + 0.01]}>
+                    <mesh position={[0, halfHeight / 2, depth / 2 + 0.01]}>
                         <shapeGeometry args={[halfShape]} />
-                        <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} side={THREE.FrontSide} />
+                        <meshStandardMaterial
+                            color={screenColor}
+                            roughness={0.0}
+                            metalness={0.2}
+                            side={THREE.FrontSide}
+                            polygonOffset
+                            polygonOffsetFactor={-1}
+                        />
                     </mesh>
 
                     {/* Camera System - Dual cameras embedded in cover screen */}
@@ -458,20 +522,38 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
                 <meshStandardMaterial color="#3a3a3a" roughness={0.2} metalness={1.0} />
             </mesh>
 
-            {/* 2. Back Glass - SURFACE SHAPE */}
-            <mesh position={[0, 0, -0.091]} rotation={[0, Math.PI, 0]}>
+            {/* Opaque backing layer - preventing see-through */}
+            <mesh position={[0, 0, 0]}>
                 <shapeGeometry args={[shape]} />
-                <meshStandardMaterial color="#1c1c1c" roughness={0.1} metalness={0.8} />
+                <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
+            </mesh>
+
+            {/* 2. Back Glass - SURFACE SHAPE */}
+            <mesh position={[0, 0, -0.090]} rotation={[0, Math.PI, 0]}>
+                <shapeGeometry args={[shape]} />
+                <meshStandardMaterial
+                    color="#1c1c1c"
+                    roughness={0.1}
+                    metalness={0.8}
+                    polygonOffset
+                    polygonOffsetFactor={-1}
+                />
             </mesh>
 
             {/* 3. Screen - SURFACE SHAPE */}
-            <mesh position={[0, 0, 0.091]}> {/* Manual offset to clear bevel */}
+            <mesh position={[0, 0, 0.090]}> {/* Manual offset to clear bevel */}
                 <shapeGeometry args={[shape]} />
-                <meshStandardMaterial color="black" roughness={0.0} metalness={0.2} />
+                <meshStandardMaterial
+                    color="black"
+                    roughness={0.0}
+                    metalness={0.2}
+                    polygonOffset
+                    polygonOffsetFactor={-1}
+                />
 
                 {/* Screen Content - HTML Overlay */}
                 <group position={[0, 0, 0.001]}>
-                    <ScreenContent scale={0.038} />
+                    <ScreenContent occlude="blending" scale={0.038} />
                 </group>
             </mesh>
         </group>
