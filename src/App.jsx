@@ -7,6 +7,7 @@ import AnimatedBackground from './components/ui/AnimatedBackground'
 
 function App() {
   const [phoneModel, setPhoneModel] = useState('default')
+  const [activeAppId, setActiveAppId] = useState(null)
 
   return (
     <div className="w-full min-h-screen relative">
@@ -15,7 +16,11 @@ function App() {
         <AnimatedBackground />
       </div>
 
-      <Overlay setPhoneModel={setPhoneModel} currentModel={phoneModel} />
+      <Overlay
+        setPhoneModel={setPhoneModel}
+        currentModel={phoneModel}
+        setActiveAppId={setActiveAppId}
+      />
 
       {/* 3D Scene - Absolute Background (Scrolls with page) */}
       <div className="absolute top-0 left-0 w-full h-screen z-0">
@@ -25,7 +30,12 @@ function App() {
 
           <Suspense fallback={null}>
             <group rotation={[0, 0, 0]}> {/* Initial rotation to face user */}
-              <PhoneModel scale={0.75} modelType={phoneModel} />
+              <PhoneModel
+                scale={0.75}
+                modelType={phoneModel}
+                activeAppId={activeAppId}
+                setActiveAppId={setActiveAppId}
+              />
             </group>
           </Suspense>
 

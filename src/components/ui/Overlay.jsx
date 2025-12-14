@@ -113,7 +113,7 @@ Overall, it’s a fun, practical introduction to agent-based AI development with
 import Header from './Header'
 import ScrollDownIndicator from './ScrollDownIndicator'
 
-const Overlay = ({ setPhoneModel, currentModel }) => {
+const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
     const [selectedExperience, setSelectedExperience] = useState(null)
     const [selectedBlog, setSelectedBlog] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null)
@@ -140,12 +140,18 @@ const Overlay = ({ setPhoneModel, currentModel }) => {
                             Interactive, performant, and reliable.
                         </p>
                         <div className="flex gap-4">
-                            <a href="#work" className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors text-center">
-                                View Work
-                            </a>
-                            <a href="#resume" className="px-8 py-3 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors text-center">
+                            <button
+                                onClick={() => setActiveAppId('projects')}
+                                className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors text-center"
+                            >
+                                View Projects
+                            </button>
+                            <button
+                                onClick={() => setActiveAppId('contact')}
+                                className="px-8 py-3 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors text-center"
+                            >
                                 Contact Me
-                            </a>
+                            </button>
                         </div>
                     </motion.div>
                 </div>

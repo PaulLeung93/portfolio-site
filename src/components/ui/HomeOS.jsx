@@ -17,8 +17,13 @@ import aiInsiders2 from '../../assets/photos/ai-insiders-2.jpg'
 import buildWithAi1 from '../../assets/photos/build-with-ai-1.jpg'
 import buildWithAi2 from '../../assets/photos/build-with-ai-2.jpg'
 
-const HomeOS = () => {
-    const [activeAppId, setActiveAppId] = useState(null)
+// Project Images
+import projectEcho from '../../assets/projects/echo.png'
+import projectGeoguesser from '../../assets/projects/geoguesser.png'
+import projectSimpleTweet from '../../assets/projects/simpletweet.png'
+
+const HomeOS = ({ activeAppId, setActiveAppId }) => {
+    // const [activeAppId, setActiveAppId] = useState(null) // Controlled by parent
     const [isDark, setIsDark] = useState(true)
     const [lang, setLang] = useState('en')
     const [wallpaper, setWallpaper] = useState(null)
@@ -56,32 +61,31 @@ const HomeOS = () => {
 
 
 
-    // Project Data (Mock)
+    // Project Data
     const projects = [
         {
-            title: "CryptoWallet Pro",
-            subtitle: "DeFi Dashboard",
-            tech: ["React Native", "Firebase", "Web3"],
-            color: "bg-orange-500",
-            // Example GIF showing app interaction
-            image: "https://media.tenor.com/t2Xbe_yL8owAAAAC/mobile-app-design-scroll.gif",
-            link: "https://github.com"
+            title: "Echo",
+            subtitle: "Location-based Social Platform",
+            tech: ["Kotlin", "Jetpack Compose", "Firebase", "Google Maps"],
+            color: "bg-indigo-900",
+            image: projectEcho,
+            link: "https://github.com/PaulLeung93/Echo"
         },
         {
-            title: "FitTrack AI",
-            subtitle: "Workout Assistant",
-            tech: ["Flutter", "TensorFlow", "HealthKit"],
+            title: "GeoGuesser",
+            subtitle: "World Exploration Game",
+            tech: ["Kotlin", "Google Maps API", "Street View", "Volley"],
             color: "bg-blue-500",
-            image: "https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            link: "https://github.com"
+            image: projectGeoguesser,
+            link: "https://github.com/PaulLeung93/GeoGuesser"
         },
         {
-            title: "EcoEats",
-            subtitle: "Sustainable Delivery",
-            tech: ["SwiftUI", "Node.js", "Maps SDK"],
-            color: "bg-green-500",
-            image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            link: "https://github.com"
+            title: "SimpleTweet",
+            subtitle: "Minimalist Twitter Client",
+            tech: ["Android", "REST API", "OAuth", "Room DB"],
+            color: "bg-sky-500",
+            image: projectSimpleTweet,
+            link: "https://github.com/PaulLeung93/SimpleTweet"
         }
     ]
 
@@ -213,9 +217,6 @@ const HomeOS = () => {
                             {/* Media Placeholder - ideally a GIF */}
                             <div className="h-[32rem] bg-gray-800 relative overflow-hidden group-hover:opacity-90 transition-opacity">
                                 <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
-                                <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                    <span className="bg-black/50 px-10 py-5 rounded-full text-5xl backdrop-blur-md">{t.playDemo}</span>
-                                </div>
                             </div>
 
                             <div className="p-10">

@@ -5,7 +5,7 @@ import { useSpring, animated } from '@react-spring/three'
 import { useFrame } from '@react-three/fiber'
 import HomeOS from '../ui/HomeOS'
 
-const PhoneModel = ({ modelType = 'default', ...props }) => {
+const PhoneModel = ({ modelType = 'default', activeAppId, setActiveAppId, ...props }) => {
     // Shared Screen Logic
     const ScreenContent = ({ occlude, scale = 0.035, height = '2850px' }) => (
         <Html
@@ -20,7 +20,7 @@ const PhoneModel = ({ modelType = 'default', ...props }) => {
             }}
             scale={scale} // Optimal balance: readable without overlapping phone edges
         >
-            <HomeOS />
+            <HomeOS activeAppId={activeAppId} setActiveAppId={setActiveAppId} />
         </Html>
     )
 
