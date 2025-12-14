@@ -500,14 +500,16 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                // Use a relative path to be safe on both custom domains and subdirectories
-                                const resumeUrl = 'documents/resume.pdf';
+                                // Try fetching from the root first, as we saw a copy there too.
+                                // Using a relative path 'resume.pdf' works best if the app is at the root.
+                                // If you have a custom domain, this is usually safest.
+                                const resumeUrl = 'resume.pdf';
                                 console.log(`Attempting to download resume from: ${resumeUrl}`);
 
                                 fetch(resumeUrl)
                                     .then(response => {
                                         if (!response.ok) {
-                                            throw new Error(`Network response was not ok: ${response.status} ${response.statusText} for URL: ${response.url}`);
+                                            throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
                                         }
                                         return response.blob();
                                     })
@@ -524,7 +526,7 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                                     })
                                     .catch(error => {
                                         console.error('Download failed:', error);
-                                        alert('Sorry, there was an error downloading the resume. Please try again later.');
+                                        alert(`Download failed!\n\nReason: ${error.message}\n\nAttempted URL: ${window.location.href.split('#')[0] + resumeUrl}`);
                                     });
                             }}
                             className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors cursor-pointer inline-flex items-center gap-2"
