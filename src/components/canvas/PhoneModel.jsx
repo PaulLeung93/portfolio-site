@@ -40,18 +40,13 @@ const ScreenContent = ({ activeAppId, setActiveAppId, occlude, scale = 0.035, wi
         style={{
             width: width,
             height: height,
+            backgroundColor: 'transparent',
+            overflow: 'hidden',
+            borderRadius: borderRadius
         }}
         scale={scale}
     >
-        <div style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'black',
-            overflow: 'hidden',
-            borderRadius: borderRadius
-        }}>
-            <HomeOS activeAppId={activeAppId} setActiveAppId={setActiveAppId} />
-        </div>
+        <HomeOS activeAppId={activeAppId} setActiveAppId={setActiveAppId} />
     </Html>
 )
 
@@ -71,7 +66,7 @@ const IPhoneModel = ({ activeAppId, setActiveAppId, ...props }) => {
                 <ScreenContent
                     activeAppId={activeAppId}
                     setActiveAppId={setActiveAppId}
-                    occlude="blending"
+                    occlude
                     scale={0.036}
                     width="1500px"
                     height="2800px"
@@ -137,7 +132,7 @@ const PixelModel = ({ activeAppId, setActiveAppId, ...props }) => {
 
                 {/* Screen Content */}
                 <group position={[0, 0, 0.001]}>
-                    <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude="blending" />
+                    <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude />
                 </group>
             </mesh>
 
@@ -260,7 +255,7 @@ const Flip7Model = ({ activeAppId, setActiveAppId, ...props }) => {
                     {!isFolded && isNearlyUnfolded && (
                         <group position={[0, halfHeight / 2, 0.001]}>
                             <mesh position={[0, 0, -0.001]}><planeGeometry args={[1.2, 2.85]} /><meshBasicMaterial color="#000000" side={THREE.DoubleSide} /></mesh>
-                            <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude="blending" scale={0.03} height="3350px" />
+                            <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude scale={0.03} height="3350px" />
                         </group>
                     )}
                 </mesh>
@@ -309,7 +304,7 @@ const DefaultModel = ({ activeAppId, setActiveAppId, ...props }) => {
             <mesh position={[0, 0, 0.090]}>
                 <shapeGeometry args={[shape]} /><meshStandardMaterial color="black" roughness={0.0} metalness={0.2} />
                 <group position={[0, 0, 0.001]}>
-                    <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude="blending" scale={0.038} />
+                    <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude scale={0.038} />
                 </group>
             </mesh>
         </group>
