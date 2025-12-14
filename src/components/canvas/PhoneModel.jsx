@@ -253,8 +253,8 @@ const Flip7Model = ({ activeAppId, setActiveAppId, ...props }) => {
                     <shapeGeometry args={[halfShape]} />
                     <meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} side={THREE.FrontSide} />
                     {!isFolded && isNearlyUnfolded && (
-                        <group position={[0, halfHeight / 2, 0.001]}>
-                            <mesh position={[0, 0, -0.001]}><planeGeometry args={[1.2, 2.85]} /><meshBasicMaterial color="#000000" side={THREE.DoubleSide} /></mesh>
+                        <group position={[0, halfHeight / 2, 0.004]}>
+                            <mesh position={[0, 0, -0.002]}><planeGeometry args={[1.2, 2.85]} /><meshBasicMaterial color="#000000" side={THREE.DoubleSide} /></mesh>
                             <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude scale={0.03} height="3350px" />
                         </group>
                     )}
@@ -270,8 +270,8 @@ const Flip7Model = ({ activeAppId, setActiveAppId, ...props }) => {
                     <mesh position={[0, 0, 0.001]}>
                         <shapeGeometry args={[halfShape]} /><meshStandardMaterial color="#000" roughness={0.0} metalness={0.2} />
                         {isFolded && (
-                            <group position={[0, 0, 0.001]}>
-                                <mesh position={[0, 0, -0.001]}><planeGeometry args={[1.2, 1.4]} /><meshBasicMaterial color="#000000" side={THREE.DoubleSide} /></mesh>
+                            <group position={[0, 0, 0.004]}>
+                                <mesh position={[0, 0, -0.002]}><planeGeometry args={[1.2, 1.4]} /><meshBasicMaterial color="#000000" side={THREE.DoubleSide} /></mesh>
                                 <LockScreen />
                             </group>
                         )}
