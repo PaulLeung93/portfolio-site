@@ -494,13 +494,32 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                         <span className="text-white font-bold mt-4 block">PaulLeung93@gmail.com</span>
                     </p>
                     <div className="flex justify-center gap-4">
-                        <a
-                            href={`${import.meta.env.BASE_URL}documents/resume.pdf`}
-                            download="Paul_Leung_Resume.pdf"
+                        <button
+                            type="button"
+                            style={{ pointerEvents: 'auto', zIndex: 9999, position: 'relative' }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                console.log('Resume download initiated');
+                                fetch(`${import.meta.env.BASE_URL}documents/resume.pdf`)
+                                    .then(response => response.blob())
+                                    .then(blob => {
+                                        const url = window.URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.style.display = 'none';
+                                        a.href = url;
+                                        a.download = 'Paul Leung Resume.pdf';
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        window.URL.revokeObjectURL(url);
+                                        document.body.removeChild(a);
+                                    })
+                                    .catch(error => console.error('Download failed:', error));
+                            }}
                             className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors cursor-pointer inline-flex items-center gap-2"
                         >
                             Download Resume
-                        </a>
+                        </button>
                     </div>
                     <p className="mt-16 text-gray-600 text-sm">© 2025 Paul Leung. All rights reserved.</p>
                 </div>
