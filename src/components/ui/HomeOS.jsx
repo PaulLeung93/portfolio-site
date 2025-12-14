@@ -611,14 +611,38 @@ const HomeOS = () => {
                         onClick={() => setSelectedPhoto(null)}
                     >
                         <motion.div
-                            layoutId={`photo-${selectedPhoto.id}`}
-                            className="w-full aspect-square bg-gray-900 rounded-3xl overflow-hidden shadow-2xl mb-12 relative"
+                            key={selectedPhoto.id}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={0.2}
+                            onDragEnd={(e, { offset, velocity }) => {
+                                const swipe = offset.x;
+
+                                if (swipe < -50) {
+                                    // Swipe Left - Next Photo
+                                    const currentIndex = myPhotos.findIndex(p => p.id === selectedPhoto.id)
+                                    const nextIndex = (currentIndex + 1) % myPhotos.length
+                                    setSelectedPhoto(myPhotos[nextIndex])
+                                } else if (swipe > 50) {
+                                    // Swipe Right - Previous Photo
+                                    const currentIndex = myPhotos.findIndex(p => p.id === selectedPhoto.id)
+                                    const prevIndex = (currentIndex - 1 + myPhotos.length) % myPhotos.length
+                                    setSelectedPhoto(myPhotos[prevIndex])
+                                }
+                            }}
+                            className="w-full aspect-square bg-gray-900 rounded-3xl overflow-hidden shadow-2xl mb-12 relative touch-none cursor-grab active:cursor-grabbing"
                             onClick={(e) => e.stopPropagation()}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            onPointerUp={(e) => e.stopPropagation()}
                         >
                             <img
                                 src={selectedPhoto.src}
                                 alt={selectedPhoto.caption}
-                                className="w-full h-full object-contain"
+                                className="w-full h-full object-contain pointer-events-none"
                             />
                         </motion.div>
                         <motion.div
@@ -629,12 +653,15 @@ const HomeOS = () => {
                             onClick={(e) => e.stopPropagation()}
                         >
                             <p className="text-white text-5xl font-medium mb-12">{selectedPhoto.caption}</p>
-                            <button
-                                onClick={() => setSelectedPhoto(null)}
-                                className="px-12 py-5 bg-white/10 rounded-full text-white text-4xl backdrop-blur-md border border-white/20 active:scale-95 transition-transform"
-                            >
-                                Close
-                            </button>
+                            <div className="flex flex-col items-center gap-4">
+                                <p className="text-white/50 text-3xl animate-pulse">Swipe to navigate</p>
+                                <button
+                                    onClick={() => setSelectedPhoto(null)}
+                                    className="px-12 py-5 bg-white/10 rounded-full text-white text-4xl backdrop-blur-md border border-white/20 active:scale-95 transition-transform mt-4"
+                                >
+                                    Close
+                                </button>
+                            </div>
                         </motion.div>
                     </motion.div>
                 )}

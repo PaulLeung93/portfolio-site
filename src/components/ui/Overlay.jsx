@@ -2,6 +2,14 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Code, Smartphone, Globe, Mail, X, ChevronRight, ExternalLink } from 'lucide-react'
 
+// Image Imports
+import droidcon1 from '../../assets/photos/droidcon-1.jpg'
+import droidcon2 from '../../assets/photos/droidcon-2.jpg'
+import aiInsiders1 from '../../assets/photos/ai-insiders-1.jpg'
+import aiInsiders2 from '../../assets/photos/ai-insiders-2.jpg'
+import buildWithAi1 from '../../assets/photos/build-with-ai-1.jpg'
+import buildWithAi2 from '../../assets/photos/build-with-ai-2.jpg'
+
 const Section = ({ children, className, ...props }) => (
     <section className={`w-full flex flex-col justify-center py-32 px-8 ${className}`} {...props}>
         {children}
@@ -62,7 +70,7 @@ Beyond the sessions, it was great connecting with other Android developers who a
 
 Grateful to the Android team for the invitation and for including me in the Android Insiders Program. Events like this are a reminder of how thoughtful and collaborative the Android community continues to be, and I’m excited to carry those learnings forward as the platform evolves.`,
         color: 'from-green-500 to-emerald-700',
-        images: ['ai-insiders-1.jpg', 'ai-insiders-2.jpg']
+        images: [aiInsiders1, aiInsiders2]
     },
     {
         id: 'droidcon-nyc',
@@ -81,7 +89,7 @@ Heat aside, it’s great meeting so many people who care deeply about Android an
 
 Hot venue, great people, and lots of free t-shirts. I would absolutely do it again.`,
         color: 'from-purple-500 to-pink-500',
-        images: ['droidcon-1.jpg', 'droidcon-2.jpg']
+        images: [droidcon1, droidcon2]
     },
     {
         id: 'build-with-ai',
@@ -98,7 +106,7 @@ And finally, I’d be lying if I didn’t mention the food. There are fresh waff
 
 Overall, it’s a fun, practical introduction to agent-based AI development with great people, great learning, and elite waffles.`,
         color: 'from-blue-500 to-indigo-600',
-        images: ['build-with-ai-1.jpg', 'build-with-ai-2.jpg']
+        images: [buildWithAi1, buildWithAi2]
     }
 ]
 
