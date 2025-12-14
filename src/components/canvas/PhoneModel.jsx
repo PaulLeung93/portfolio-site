@@ -32,20 +32,26 @@ const extrudeSettings = {
 }
 
 // Shared Screen Logic
-const ScreenContent = ({ activeAppId, setActiveAppId, occlude, scale = 0.035, height = '2850px' }) => (
+const ScreenContent = ({ activeAppId, setActiveAppId, occlude, scale = 0.035, width = '1400px', height = '2850px', borderRadius = '0px' }) => (
     <Html
         transform
         occlude={occlude}
         position={[0, 0, 0.001]}
         style={{
-            width: '1400px',
+            width: width,
             height: height,
-            backgroundColor: 'black',
-            overflow: 'hidden'
         }}
         scale={scale}
     >
-        <HomeOS activeAppId={activeAppId} setActiveAppId={setActiveAppId} />
+        <div style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'black',
+            overflow: 'hidden',
+            borderRadius: borderRadius
+        }}>
+            <HomeOS activeAppId={activeAppId} setActiveAppId={setActiveAppId} />
+        </div>
     </Html>
 )
 
@@ -66,8 +72,10 @@ const IPhoneModel = ({ activeAppId, setActiveAppId, ...props }) => {
                     activeAppId={activeAppId}
                     setActiveAppId={setActiveAppId}
                     occlude="blending"
-                    scale={0.035}
-                    height="2550px"
+                    scale={0.036}
+                    width="1500px"
+                    height="2800px"
+                    borderRadius="140px"
                 />
             </group>
         </group>
