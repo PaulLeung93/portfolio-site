@@ -500,11 +500,14 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                console.log('Resume download initiated');
-                                fetch(`${import.meta.env.BASE_URL}documents/resume.pdf`)
+                                // Use a relative path to be safe on both custom domains and subdirectories
+                                const resumeUrl = 'documents/resume.pdf';
+                                console.log(`Attempting to download resume from: ${resumeUrl}`);
+
+                                fetch(resumeUrl)
                                     .then(response => {
                                         if (!response.ok) {
-                                            throw new Error(`Network response was not ok: ${response.statusText}`);
+                                            throw new Error(`Network response was not ok: ${response.status} ${response.statusText} for URL: ${response.url}`);
                                         }
                                         return response.blob();
                                     })
