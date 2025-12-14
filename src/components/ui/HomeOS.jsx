@@ -330,7 +330,10 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
                                 <span className="text-6xl font-medium">{t.darkMode}</span>
                             </div>
                             <div
-                                onClick={() => setIsDark(!isDark)}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    setIsDark(!isDark)
+                                }}
                                 className={`w-24 h-14 rounded-full p-1 transition-colors duration-300 ${isDark ? 'bg-green-500' : 'bg-gray-600'}`}
                             >
                                 <div className={`w-12 h-12 bg-white rounded-full shadow-md transition-transform duration-300 ${isDark ? 'translate-x-10' : 'translate-x-0'}`} />
@@ -344,7 +347,10 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
-                                    onClick={() => setIsLangOpen(true)}
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        setIsLangOpen(true)
+                                    }}
                                     className={`text-5xl font-medium flex items-center gap-2 ${!isDark ? 'text-gray-500' : 'text-gray-400'}`}
                                 >
                                     {languages.find(l => l.code === lang)?.name}
@@ -360,7 +366,8 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                        e.stopPropagation()
                                         setPreviewWallpaper(wallpaper) // Initialize preview
                                         setIsWallpaperOpen(true)
                                     }}
@@ -529,6 +536,9 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
         <div
             className={`w-full h-full select-none flex flex-col font-sans transition-colors duration-300 ${isDark ? 'bg-transparent text-white' : 'bg-gray-100 text-black'}`}
             style={wallpaper ? { backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            onPointerMove={(e) => e.stopPropagation()}
         >
             {/* Dynamic Island Area */}
             <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-50 pointer-events-none"></div>
