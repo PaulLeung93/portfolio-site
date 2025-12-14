@@ -31,10 +31,13 @@ const ScrollDownIndicator = () => {
             const currentScroll = window.scrollY + window.innerHeight / 2;
             const resumeSection = document.getElementById('resume');
 
+            // Check if we're at the bottom of the page
+            const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 20;
+
             if (resumeSection) {
                 const { offsetTop } = resumeSection;
-                // Hide if we are entering the resume section area
-                if (currentScroll >= offsetTop) {
+                // Hide if we are entering the resume section area OR if we are at the bottom of the page
+                if (currentScroll >= offsetTop || isAtBottom) {
                     setIsVisible(false);
                 } else {
                     setIsVisible(true);
