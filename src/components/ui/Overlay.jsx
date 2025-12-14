@@ -502,19 +502,27 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                                 e.stopPropagation();
                                 console.log('Resume download initiated');
                                 fetch(`${import.meta.env.BASE_URL}documents/resume.pdf`)
-                                    .then(response => response.blob())
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error(`Network response was not ok: ${response.statusText}`);
+                                        }
+                                        return response.blob();
+                                    })
                                     .then(blob => {
                                         const url = window.URL.createObjectURL(blob);
                                         const a = document.createElement('a');
                                         a.style.display = 'none';
                                         a.href = url;
-                                        a.download = 'Paul Leung Resume.pdf';
+                                        a.download = 'Paul_Leung_Resume.pdf';
                                         document.body.appendChild(a);
                                         a.click();
                                         window.URL.revokeObjectURL(url);
                                         document.body.removeChild(a);
                                     })
-                                    .catch(error => console.error('Download failed:', error));
+                                    .catch(error => {
+                                        console.error('Download failed:', error);
+                                        alert('Sorry, there was an error downloading the resume. Please try again later.');
+                                    });
                             }}
                             className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors cursor-pointer inline-flex items-center gap-2"
                         >
