@@ -61,7 +61,7 @@ const IPhoneModel = ({ activeAppId, setActiveAppId, ...props }) => {
             <primitive object={clone} scale={20} position={[0, 0, 0]} rotation={[0, 0, 0]} />
 
             {/* Screen Content - Manual Alignment */}
-            <group position={[0, 0, 0.15]} rotation={[0, 0, 0]}>
+            <group position={[0, 0, 0.087]} rotation={[0, 0, 0]}>
                 <ScreenContent
                     activeAppId={activeAppId}
                     setActiveAppId={setActiveAppId}
