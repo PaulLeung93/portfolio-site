@@ -527,7 +527,7 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
 
     return (
         <div
-            className={`w-full h-full bg-transparent text-white select-none flex flex-col font-sans transition-colors duration-300 ${!isDark ? 'bg-gray-100 text-black' : ''}`}
+            className={`w-full h-full select-none flex flex-col font-sans transition-colors duration-300 ${isDark ? 'bg-transparent text-white' : 'bg-gray-100 text-black'}`}
             style={wallpaper ? { backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
         >
             {/* Dynamic Island Area */}
