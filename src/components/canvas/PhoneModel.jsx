@@ -148,13 +148,13 @@ const PixelModel = ({ activeAppId, setActiveAppId, ...props }) => {
                 </RoundedBox>
 
                 {/* Lenses */}
-                <Cylinder args={[0.08, 0.08, 0.08, 32]} rotation={[Math.PI / 2, 0, 0]} position={[-0.3, 0, 0.01]}>
+                <Cylinder args={[0.08, 0.08, 0.085, 32]} rotation={[Math.PI / 2, 0, 0]} position={[-0.3, 0, 0.01]}>
                     <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
                 </Cylinder>
-                <Cylinder args={[0.08, 0.08, 0.08, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.01]}>
+                <Cylinder args={[0.08, 0.08, 0.085, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.01]}>
                     <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
                 </Cylinder>
-                <Cylinder args={[0.08, 0.08, 0.08, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0.3, 0, 0.01]}>
+                <Cylinder args={[0.08, 0.08, 0.085, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0.3, 0, 0.01]}>
                     <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
                 </Cylinder>
             </group>
@@ -281,7 +281,7 @@ const Flip7Model = ({ activeAppId, setActiveAppId, ...props }) => {
                 <mesh position={[0, halfHeight / 2, depth / 2 + 0.01]}>
                     <shapeGeometry args={[halfShape]} /><meshStandardMaterial color={screenColor} roughness={0.0} metalness={0.2} side={THREE.FrontSide} />
                 </mesh>
-                <group position={[0.35, halfHeight / 2 + 0.5, -depth - 0.02]}>
+                <group position={[0.35, halfHeight / 2 + 0.5, -depth / 2 - 0.025]}>
                     <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[-0.15, 0, 0]}><meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} /></Cylinder>
                     <Cylinder args={[0.08, 0.08, 0.04, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0.15, 0, 0]}><meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} /></Cylinder>
                 </group>
