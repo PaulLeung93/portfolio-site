@@ -17,10 +17,10 @@ import aiInsiders2 from '../../assets/photos/ai-insiders-2.jpg'
 import buildWithAi1 from '../../assets/photos/build-with-ai-1.jpg'
 import buildWithAi2 from '../../assets/photos/build-with-ai-2.jpg'
 
-// Project Images
 import projectEcho from '../../assets/projects/echo.png'
 import projectGeoguesser from '../../assets/projects/geoguesser.png'
 import projectSimpleTweet from '../../assets/projects/simpletweet.png'
+import projectLobbyLens from '../../assets/projects/lobbylens.png'
 
 const HomeOS = ({ activeAppId, setActiveAppId }) => {
     // const [activeAppId, setActiveAppId] = useState(null) // Controlled by parent
@@ -61,8 +61,15 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
 
 
 
-    // Project Data
     const projects = [
+        {
+            title: "LobbyLens",
+            subtitle: "AI Transparency & Political Finance Tool",
+            tech: ["Kotlin", "Jetpack Compose", "Gemini AI", "Vision API"],
+            color: "bg-amber-600",
+            image: projectLobbyLens,
+            link: "https://github.com/PaulLeung93/LobbyLens"
+        },
         {
             title: "Echo",
             subtitle: "Location-based Social Platform",
