@@ -9,8 +9,6 @@ import aiInsiders1 from '../../assets/photos/ai-insiders-1.jpg'
 import aiInsiders2 from '../../assets/photos/ai-insiders-2.jpg'
 import buildWithAi1 from '../../assets/photos/build-with-ai-1.jpg'
 import buildWithAi2 from '../../assets/photos/build-with-ai-2.jpg'
-import lobbylens1 from '../../assets/photos/lobbylens-1.png'
-import lobbylens2 from '../../assets/photos/lobbylens-2.png'
 
 const Section = ({ children, className, ...props }) => (
     <section className={`w-full flex flex-col justify-center py-32 px-8 ${className}`} {...props}>
@@ -55,25 +53,6 @@ const experiences = [
 ]
 
 const blogs = [
-    {
-        id: 'lobbylens-launch',
-        title: 'Building LobbyLens: AI Transparency',
-        date: 'December 2025',
-        preview: 'LobbyLens is one of those projects that started with a simple question: "How can we make public data feel real?" Campaign finance data is public, but it\'s often buried in tables...',
-        content: `LobbyLens is one of those projects that started with a simple question: "How can we make public data feel real?" Campaign finance data is public, but it's often buried in rows of spreadsheets and dense FEC reports. It’s accessible, yet invisible.
-
-The idea was to take that data and turn it into a visual story. I wanted to create something that looked like a sports broadcast — where athletes are covered in sponsor logos — but for politicians. If a company is a major donor, why not see their logo right on the politician's suit?
-
-Technically, this was a fun challenge. I integrated the Google Cloud Vision API to identify politicians from photos using Web Detection. Once identified, I used the FEC API and the Senate Lobbying Disclosure API to pull contribution and gift data.
-
-The "magic" happens with Gemini AI. Using Gemini’s image generation and editing capabilities, I can take a photo of a politician and instruct the model to overlay the donor logos naturally onto their clothing. It’s not just a sticker; it’s an AI-driven inpainting process that respects lighting and texture.
-
-Building this required a lot of trial and error with prompt engineering and API orchestration. Managing network timeouts for dense data queries while ensuring the AI generation felt responsive was a balancing act.
-
-Ultimately, LobbyLens is a tool for transparency. It's about using modern AI not just for novelty, but to make complex information immediately understandable. Whether you're a voter, a student, or just curious about the influence of money in politics, I hope it makes you look twice.`,
-        color: 'from-amber-500 to-orange-700',
-        images: [lobbylens1, lobbylens2]
-    },
     {
         id: 'android-ai-insiders',
         title: 'Android AI Insiders @ Google NYC',
