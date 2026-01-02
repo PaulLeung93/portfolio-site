@@ -501,7 +501,7 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 // Using the trusted file in the documents folder
-                                const resumeUrl = 'documents/resume.pdf';
+                                const resumeUrl = 'documents/Paul Leung Resume.pdf';
                                 console.log(`Attempting to download resume from: ${resumeUrl}`);
 
                                 fetch(resumeUrl)
