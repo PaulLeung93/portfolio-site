@@ -23,7 +23,7 @@ function App() {
       />
 
       {/* 3D Scene - Absolute Background (Scrolls with page) */}
-      <div className="absolute top-0 left-0 w-full h-screen z-0">
+      <div className="absolute top-0 left-0 w-full h-[110vh] z-0">
         <Canvas camera={{ position: [0, 0, 3.5], fov: 45 }}>
           <Environment preset="city" />
           <ambientLight intensity={0.5} />

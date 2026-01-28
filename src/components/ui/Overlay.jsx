@@ -163,7 +163,7 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1, duration: 0.8 }}
-                    className="absolute right-4 md:right-8 bottom-24 md:bottom-auto md:top-1/2 md:-translate-y-1/2 flex flex-col items-end gap-2 md:gap-4 pointer-events-auto"
+                    className="absolute right-4 md:right-8 bottom-8 md:bottom-auto md:top-1/2 md:-translate-y-1/2 flex flex-col items-end gap-2 md:gap-4 pointer-events-auto"
                 >
                     <span className="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-wider text-right hidden md:block">Select<br />Device</span>
                     <div className="flex flex-col bg-white/5 backdrop-blur-md rounded-xl md:rounded-2xl p-1.5 md:p-2 border border-white/10 gap-1.5 md:gap-2">
