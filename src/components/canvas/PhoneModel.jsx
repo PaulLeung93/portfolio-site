@@ -78,95 +78,26 @@ const IPhoneModel = ({ activeAppId, setActiveAppId, ...props }) => {
 }
 
 const PixelModel = ({ activeAppId, setActiveAppId, ...props }) => {
-    // Pixel 10 Style - White "Porcelain" (Procedural Restore)
+    // Google Pixel Phone - External Model
+    const { scene } = useGLTF('/portfolio-site/models/google_pixel_phone.glb')
+    const clone = useMemo(() => scene.clone(), [scene])
+
     return (
         <group {...props} dispose={null}>
-            {/* 1. SINGLE CHASSIS - Extruded Body for Flat Sides - polished silver/aluminum */}
-            <mesh position={[0, 0, -0.075]}>
-                <extrudeGeometry args={[shape, extrudeSettings]} />
-                <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} />
-            </mesh>
+            <primitive object={clone} scale={2.5} position={[0, 0, 0]} rotation={[0, 0, 0]} />
 
-            {/* Opaque backing layer - preventing see-through */}
-            <mesh position={[0, 0, 0]}>
-                <shapeGeometry args={[shape]} />
-                <meshBasicMaterial color="#000000" side={THREE.DoubleSide} />
-            </mesh>
-
-            {/* 2. Back Glass - SURFACE SHAPE - White Porcelain / Soft Matte */}
-            <mesh position={[0, 0, -0.090]} rotation={[0, Math.PI, 0]}>
-                <shapeGeometry args={[shape]} />
-                <meshStandardMaterial
-                    color="#f5f5f5"
-                    roughness={0.6}
-                    metalness={0.1}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
-                />
-
-                {/* Google G Logo */}
-                <Html
-                    transform
-                    position={[0, 0, 0.001]}
-                    scale={0.15}
-                    rotation={[0, 0, 0]}
+            {/* Screen Content - Approximate positioning, matches iPhone scale */}
+            <group position={[-0.050, 0, 0.01]} rotation={[0, 0, 0]}>
+                <ScreenContent
+                    activeAppId={activeAppId}
+                    setActiveAppId={setActiveAppId}
                     occlude
-                    style={{ background: 'transparent' }}
-                >
-                    <div className="text-[#a0a0a0] text-6xl font-sans font-bold select-none opacity-40">
-                        G
-                    </div>
-                </Html>
-            </mesh>
-
-            {/* 3. Screen - SURFACE SHAPE */}
-            <mesh position={[0, 0, 0.090]}>
-                <shapeGeometry args={[shape]} />
-                <meshStandardMaterial
-                    color="black"
-                    roughness={0.0}
-                    metalness={0.2}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
+                    scale={0.036}
+                    width="1500px"
+                    height="2800px"
+                    borderRadius="140px"
                 />
-
-                {/* Screen Content */}
-                <group position={[0, 0, 0.001]}>
-                    <ScreenContent activeAppId={activeAppId} setActiveAppId={setActiveAppId} occlude />
-                </group>
-            </mesh>
-
-            {/* 4. Camera Bar - The Iconic Visor */}
-            <group position={[0, 1.0, -0.12]}>
-                <RoundedBox args={[1.4, 0.35, 0.06]} radius={0.15} smoothness={4}>
-                    <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} /> {/* Match Chassis Silver */}
-                </RoundedBox>
-
-                {/* The "Pill" - Black Glass area for lenses */}
-                <RoundedBox args={[1.2, 0.22, 0.065]} radius={0.11} smoothness={4} position={[0, 0, 0.005]}>
-                    <meshStandardMaterial color="#111" roughness={0.1} metalness={0.8} />
-                </RoundedBox>
-
-                {/* Lenses */}
-                <Cylinder args={[0.08, 0.08, 0.085, 32]} rotation={[Math.PI / 2, 0, 0]} position={[-0.3, 0, 0.01]}>
-                    <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
-                </Cylinder>
-                <Cylinder args={[0.08, 0.08, 0.085, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.01]}>
-                    <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
-                </Cylinder>
-                <Cylinder args={[0.08, 0.08, 0.085, 32]} rotation={[Math.PI / 2, 0, 0]} position={[0.3, 0, 0.01]}>
-                    <meshStandardMaterial color="#050505" roughness={0.1} metalness={0.5} />
-                </Cylinder>
             </group>
-
-            {/* 5. Buttons - ALL ON RIGHT SIDE for Pixel */}
-            <RoundedBox args={[0.03, 0.25, 0.08]} radius={0.01} smoothness={4} position={[0.755, 0.7, 0]}>
-                <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} />
-            </RoundedBox>
-            <RoundedBox args={[0.03, 0.5, 0.08]} radius={0.01} smoothness={4} position={[0.755, 0.2, 0]}>
-                <meshStandardMaterial color="#e3e3e3" roughness={0.2} metalness={0.8} />
-            </RoundedBox>
-
         </group>
     )
 }
@@ -321,5 +252,6 @@ const PhoneModel = ({ modelType = 'default', activeAppId, setActiveAppId, ...pro
 
 // Preload models
 useGLTF.preload('/portfolio-site/models/iphone.glb')
+useGLTF.preload('/portfolio-site/models/google_pixel_phone.glb')
 
 export default PhoneModel
