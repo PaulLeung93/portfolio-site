@@ -22,6 +22,33 @@ import projectGeoguesser from '../../assets/projects/geoguesser.png'
 import projectSimpleTweet from '../../assets/projects/simpletweet.png'
 import projectLobbyLens from '../../assets/projects/lobbylens.png'
 
+const ClockWidget = ({ isDark, wallpaper, lang }) => {
+    const [now, setNow] = useState(new Date())
+
+    useEffect(() => {
+        const timer = setInterval(() => setNow(new Date()), 1000)
+        return () => clearInterval(timer)
+    }, [])
+
+    const localeMap = {
+        en: 'en-US', es: 'es-ES', de: 'de-DE', fr: 'fr-FR', it: 'it-IT',
+        pt: 'pt-PT', ru: 'ru-RU', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR',
+        hi: 'hi-IN', bn: 'bn-BD', ar: 'ar-SA', id: 'id-ID'
+    }
+
+    const locale = localeMap[lang] || 'en-US'
+    const dayOfWeek = now.toLocaleDateString(locale, { weekday: 'long' })
+    const monthDay = now.toLocaleDateString(locale, { month: 'long', day: 'numeric' })
+    const timeString = now.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' })
+
+    return (
+        <div className="mb-16 pl-2 relative z-10">
+            <h2 className={`text-9xl font-thin mb-4 ${!isDark && !wallpaper ? 'text-black/90' : 'text-white/90'}`}>{timeString}</h2>
+            <h3 className={`text-6xl ${!isDark && !wallpaper ? 'text-black/60' : 'text-white/60'}`}>{dayOfWeek}, {monthDay}</h3>
+        </div>
+    )
+}
+
 const HomeOS = ({ activeAppId, setActiveAppId }) => {
     // const [activeAppId, setActiveAppId] = useState(null) // Controlled by parent
     const [isDark, setIsDark] = useState(true)
@@ -514,23 +541,6 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
         { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-700', content: null, external: 'https://www.linkedin.com/in/paulleung1993/' },
     ]
     const activeApp = apps.find(a => a.id === activeAppId)
-    const [now, setNow] = useState(new Date())
-
-    useEffect(() => {
-        const timer = setInterval(() => setNow(new Date()), 1000)
-        return () => clearInterval(timer)
-    }, [])
-
-    // Map internal lang keys to standard locale strings
-    const localeMap = {
-        en: 'en-US', es: 'es-ES', de: 'de-DE', fr: 'fr-FR', it: 'it-IT',
-        pt: 'pt-PT', ru: 'ru-RU', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR',
-        hi: 'hi-IN', bn: 'bn-BD', ar: 'ar-SA', id: 'id-ID'
-    }
-    const locale = localeMap[lang] || 'en-US'
-    const dayOfWeek = now.toLocaleDateString(locale, { weekday: 'long' })
-    const monthDay = now.toLocaleDateString(locale, { month: 'long', day: 'numeric' })
-    const timeString = now.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' })
 
 
 
@@ -561,10 +571,7 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
                         className="flex-1 p-6 flex flex-col pt-16 relative z-10"
                     >
                         {/* Date Widget */}
-                        <div className="mb-16 pl-2 relative z-10">
-                            <h2 className={`text-9xl font-thin mb-4 ${!isDark && !wallpaper ? 'text-black/90' : 'text-white/90'}`}>{timeString}</h2>
-                            <h3 className={`text-6xl ${!isDark && !wallpaper ? 'text-black/60' : 'text-white/60'}`}>{dayOfWeek}, {monthDay}</h3>
-                        </div>
+                        <ClockWidget isDark={isDark} wallpaper={wallpaper} lang={lang} />
 
                         {/* App Grid */}
                         <div className="grid grid-cols-4 gap-y-16 gap-x-2">

@@ -124,7 +124,7 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
             <ScrollDownIndicator />
 
             {/* Hero Section */}
-            <Section className="min-h-screen items-start pt-6 md:pt-20 relative" id="hero">
+            <Section className="min-h-screen items-start pt-0 md:pt-20 relative" id="hero">
                 <div className="max-w-2xl">
                     <motion.div
                         className="pointer-events-auto"

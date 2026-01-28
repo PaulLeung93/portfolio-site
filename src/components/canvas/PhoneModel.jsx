@@ -261,7 +261,7 @@ const PhoneModel = ({ modelType = 'default', activeAppId, setActiveAppId, ...pro
 
     // Adjust position for mobile to prevent overlap with text
     // Moving it down slightly to -0.9 to clear the "Contact Me" button
-    const responsivePosition = isMobile ? [0, -0.9, 0] : [0, 0, 0]
+    const responsivePosition = isMobile ? [0, -0.8, 0] : [0, 0, 0]
 
     const responsiveProps = {
         ...props,
