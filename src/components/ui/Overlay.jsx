@@ -124,7 +124,7 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
             <ScrollDownIndicator />
 
             {/* Hero Section */}
-            <Section className="min-h-screen items-start pt-20 relative" id="hero">
+            <Section className="min-h-screen items-start pt-6 md:pt-20 relative" id="hero">
                 <div className="max-w-2xl">
                     <motion.div
                         className="pointer-events-auto"
@@ -132,75 +132,77 @@ const Overlay = ({ setPhoneModel, currentModel, setActiveAppId }) => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
+                        <h1 className="text-4xl md:text-7xl font-bold tracking-tighter mb-4">
                             MOBILE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">DEVELOPER</span>
                         </h1>
-                        <p className="text-xl text-gray-400 mb-8 max-w-lg">
+                        <p className="text-xl text-gray-400 mb-4 md:mb-8 max-w-lg">
                             Crafting seamless native experiences for iOS and Android.
                             Interactive, performant, and reliable.
                         </p>
                         <div className="flex gap-4">
                             <button
                                 onClick={() => setActiveAppId('projects')}
-                                className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors text-center"
+                                className="px-6 py-2 md:px-8 md:py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors text-center text-sm md:text-base"
                             >
                                 View Projects
                             </button>
                             <button
                                 onClick={() => setActiveAppId('contact')}
-                                className="px-8 py-3 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors text-center"
+                                className="px-6 py-2 md:px-8 md:py-3 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors text-center text-sm md:text-base"
                             >
                                 Contact Me
                             </button>
                         </div>
+
+
                     </motion.div>
                 </div>
 
-                {/* Phone Switcher - Floating on Right Side */}
+                {/* Phone Switcher - Vertical on right side (responsive positioning) */}
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1, duration: 0.8 }}
-                    className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-end gap-4 pointer-events-auto hidden md:flex"
+                    className="absolute right-4 md:right-8 bottom-24 md:bottom-auto md:top-1/2 md:-translate-y-1/2 flex flex-col items-end gap-2 md:gap-4 pointer-events-auto"
                 >
-                    <span className="text-sm text-gray-500 font-bold uppercase tracking-wider text-right">Select<br />Device</span>
-                    <div className="flex flex-col bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/10 gap-2">
+                    <span className="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-wider text-right hidden md:block">Select<br />Device</span>
+                    <div className="flex flex-col bg-white/5 backdrop-blur-md rounded-xl md:rounded-2xl p-1.5 md:p-2 border border-white/10 gap-1.5 md:gap-2">
                         <button
                             onClick={() => setPhoneModel('default')}
-                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${currentModel === 'default' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
+                            className={`w-9 h-9 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center transition-all ${currentModel === 'default' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
                             title="Default"
                         >
-                            <div className="w-6 h-10 border-2 border-current rounded-[4px] relative bg-black/50 overflow-hidden">
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-1 bg-current rounded-b-[2px]" />
+                            <div className="w-4 h-6 md:w-6 md:h-10 border-2 border-current rounded-[3px] md:rounded-[4px] relative bg-black/50 overflow-hidden">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 md:w-4 h-0.5 md:h-1 bg-current rounded-b-[1px] md:rounded-b-[2px]" />
                             </div>
                         </button>
                         <button
                             onClick={() => setPhoneModel('iphone')}
-                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${currentModel === 'iphone' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
+                            className={`w-9 h-9 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center transition-all ${currentModel === 'iphone' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
                             title="iPhone"
                         >
-                            <div className="w-6 h-10 border-2 border-current rounded-[5px] relative overflow-hidden">
-                                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-2 h-[3px] bg-current rounded-full" />
+                            <div className="w-4 h-6 md:w-6 md:h-10 border-2 border-current rounded-[4px] md:rounded-[5px] relative overflow-hidden">
+                                <div className="absolute top-0.5 md:top-1 left-1/2 -translate-x-1/2 w-1.5 md:w-2 h-[2px] md:h-[3px] bg-current rounded-full" />
                             </div>
                         </button>
                         <button
                             onClick={() => setPhoneModel('pixel')}
-                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${currentModel === 'pixel' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
+                            className={`w-9 h-9 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center transition-all ${currentModel === 'pixel' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
                             title="Google Pixel"
                         >
-                            <div className="w-6 h-10 border-2 border-current rounded-[4px] relative overflow-hidden">
-                                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-5 h-[4px] bg-current rounded-full" />
+                            <div className="w-4 h-6 md:w-6 md:h-10 border-2 border-current rounded-[3px] md:rounded-[4px] relative overflow-hidden">
+                                <div className="absolute top-1 md:top-2 left-1/2 -translate-x-1/2 w-3 md:w-5 h-[3px] md:h-[4px] bg-current rounded-full" />
                             </div>
                         </button>
                         <button
                             onClick={() => setPhoneModel('flip7')}
-                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${currentModel === 'flip7' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
+                            className={`w-9 h-9 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center transition-all ${currentModel === 'flip7' ? 'bg-white text-black shadow-lg scale-110' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}
                             title="Galaxy Flip 7"
                         >
-                            <div className="relative w-6 h-10">
+                            <div className="relative w-4 h-6 md:w-6 md:h-10">
                                 {/* Folded phone icon - two rectangles */}
-                                <div className="absolute top-0 left-0 w-6 h-5 border-2 border-current rounded-t-[4px]" />
-                                <div className="absolute bottom-0 left-0 w-6 h-5 border-2 border-current rounded-b-[4px]" />
+                                <div className="absolute top-0 left-0 w-4 md:w-6 h-3 md:h-5 border-2 border-current rounded-t-[3px] md:rounded-t-[4px]" />
+                                <div className="absolute bottom-0 left-0 w-4 md:w-6 h-3 md:h-5 border-2 border-current rounded-b-[3px] md:rounded-b-[4px]" />
                             </div>
                         </button>
                     </div>

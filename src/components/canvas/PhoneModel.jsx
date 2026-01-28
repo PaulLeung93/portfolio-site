@@ -2,8 +2,13 @@ import { Html, useGLTF, RoundedBox, Cylinder } from '@react-three/drei'
 import * as THREE from 'three'
 import { useState, useMemo, useEffect } from 'react'
 import { useSpring, animated } from '@react-spring/three'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import HomeOS from '../ui/HomeOS'
+
+const useMobile = () => {
+    const { width } = useThree((state) => state.viewport)
+    return width < 3.2 // Approx threshold for mobile in 3D units
+}
 
 // --- SHARED GEOMETRY ---
 const shape = new THREE.Shape()
@@ -244,10 +249,32 @@ const DefaultModel = ({ activeAppId, setActiveAppId, ...props }) => {
 
 // --- MAIN COMPONENT ---
 const PhoneModel = ({ modelType = 'default', activeAppId, setActiveAppId, ...props }) => {
-    if (modelType === 'iphone') return <IPhoneModel activeAppId={activeAppId} setActiveAppId={setActiveAppId} {...props} />
-    if (modelType === 'pixel') return <PixelModel activeAppId={activeAppId} setActiveAppId={setActiveAppId} {...props} />
-    if (modelType === 'flip7') return <Flip7Model activeAppId={activeAppId} setActiveAppId={setActiveAppId} {...props} />
-    return <DefaultModel activeAppId={activeAppId} setActiveAppId={setActiveAppId} {...props} />
+    const isMobile = useMobile()
+    const mobileScale = 0.35 // Reduced to prevent overlap
+    const desktopScale = 0.75 // Default desktop scale
+
+    // Merge passed scale with our responsive scale
+    // If props.scale is provided, use it, otherwise use responsive default
+    const finalScale = props.scale && props.scale !== 0.75
+        ? props.scale
+        : (isMobile ? mobileScale : desktopScale)
+
+    // Adjust position for mobile to prevent overlap with text
+    // Moving it down slightly to -0.9 to clear the "Contact Me" button
+    const responsivePosition = isMobile ? [0, -0.9, 0] : [0, 0, 0]
+
+    const responsiveProps = {
+        ...props,
+        scale: finalScale,
+        position: props.position || responsivePosition,
+        activeAppId,
+        setActiveAppId
+    }
+
+    if (modelType === 'iphone') return <IPhoneModel {...responsiveProps} />
+    if (modelType === 'pixel') return <PixelModel {...responsiveProps} />
+    if (modelType === 'flip7') return <Flip7Model {...responsiveProps} />
+    return <DefaultModel {...responsiveProps} />
 }
 
 // Preload models
