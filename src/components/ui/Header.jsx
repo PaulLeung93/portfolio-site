@@ -34,7 +34,7 @@ const Header = () => {
 
     return (
         <motion.header
-            className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-2 pointer-events-auto bg-black/20 backdrop-blur-md"
+            className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-3 pointer-events-auto bg-black/20 backdrop-blur-md"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: isVisible ? 0 : -100 }}
             transition={{ duration: 0.3, ease: "easeOut" }}

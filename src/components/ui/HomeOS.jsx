@@ -568,7 +568,7 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
 
                         {/* App Grid */}
                         <div className="grid grid-cols-4 gap-y-16 gap-x-2">
-                            {apps.map((app) => (
+                            {apps.map((app, i) => (
                                 <motion.div
                                     key={app.id}
                                     whileHover={{ scale: 1.1 }}
@@ -583,7 +583,17 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
                                     className="flex flex-col items-center gap-4 cursor-pointer group"
                                 >
                                     <div className={`${app.color} w-48 h-48 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
-                                        <app.icon size={96} color="white" />
+                                        <motion.div
+                                            initial={{ scale: 1 }}
+                                            animate={{ scale: [1, 1.15, 1] }}
+                                            transition={{
+                                                duration: 0.4,
+                                                delay: 1.0 + (i * 0.1), // Initial fade in finishes around 0.5-0.8s, so we start after that
+                                                ease: "easeOut"
+                                            }}
+                                        >
+                                            <app.icon size={96} color="white" />
+                                        </motion.div>
                                     </div>
                                     <span className={`text-5xl font-medium tracking-wide ${!isDark && !wallpaper ? 'text-gray-800' : 'text-gray-200'}`}>{app.name}</span>
                                 </motion.div>
