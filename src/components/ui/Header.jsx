@@ -1,8 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // Show header when scrolling up or at top of page
+            if (currentScrollY < lastScrollY || currentScrollY < 50) {
+                setIsVisible(true);
+            } else {
+                // Hide header when scrolling down (and past 50px)
+                setIsVisible(false);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [lastScrollY]);
+
     const links = [
         { name: 'About', href: '#about' },
         { name: 'Work', href: '#work' },
@@ -12,10 +34,10 @@ const Header = () => {
 
     return (
         <motion.header
-            className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-6 pointer-events-auto"
+            className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-2 pointer-events-auto bg-black/20 backdrop-blur-md"
             initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            animate={{ opacity: 1, y: isVisible ? 0 : -100 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
         >
             <div
                 className="text-xl font-bold tracking-tighter cursor-pointer hover:opacity-80 transition-opacity"
