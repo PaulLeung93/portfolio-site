@@ -82,7 +82,7 @@ src/
 ## ✉️ Contact
 
 - **Email**: [PaulLeung93@gmail.com](mailto:PaulLeung93@gmail.com)
-- **LinkedIn**: [Paul Leung](https://www.linkedin.com/in/paulleung1993/)
+- **LinkedIn**: [Paul Leung](https://www.linkedin.com/in/leung-paul)
 - **Portfolio**: [Live Demo](https://paulleung93.github.io/portfolio-site/)
 
 ---

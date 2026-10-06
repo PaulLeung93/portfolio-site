@@ -204,7 +204,7 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
                                     <Mail size={80} />
                                 </a>
                                 <a
-                                    href="https://www.linkedin.com/in/paulleung1993/"
+                                    href="https://www.linkedin.com/in/leung-paul"
                                     target="_blank"
                                     rel="noreferrer"
                                     className={`p-10 rounded-[3rem] transition-transform hover:scale-110 active:scale-95 ${!isDark ? 'bg-blue-50 text-blue-600' : 'bg-blue-900/30 text-blue-400'}`}
@@ -538,7 +538,7 @@ const HomeOS = ({ activeAppId, setActiveAppId }) => {
             )
         },
         { id: 'github', name: 'GitHub', icon: Github, color: 'bg-gray-800', content: null, external: 'https://github.com/PaulLeung93' },
-        { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-700', content: null, external: 'https://www.linkedin.com/in/paulleung1993/' },
+        { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-700', content: null, external: 'https://www.linkedin.com/in/leung-paul' },
     ]
     const activeApp = apps.find(a => a.id === activeAppId)
 
